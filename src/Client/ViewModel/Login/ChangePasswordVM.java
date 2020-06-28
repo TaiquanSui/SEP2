@@ -4,6 +4,8 @@ import Client.Model.Login.ILoginModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.rmi.RemoteException;
+
 public class ChangePasswordVM {
 
     // View model class for the change password view
@@ -26,7 +28,7 @@ public class ChangePasswordVM {
 
     // method called by the controller, when the user requests to update the password.
     // relevant information is retrieved from the properties, and forwarded to the model
-    public String updatePassword() {
+    public String updatePassword() throws RemoteException {
         String result = loginModel.changePassword(username.getValue(), password.getValue(), newPassword.get(), newPasswordAgain.get());
 
         return result;

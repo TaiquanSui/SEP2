@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
+import java.rmi.RemoteException;
 
 public class LoginController {
     @FXML
@@ -15,11 +16,11 @@ public class LoginController {
     private TextField passwordTextField;
 
     private LoginVM loginViewModel;
-    private ViewHandler viewHandlerLogin;
+    private ViewHandler viewHandler;
 
     public void init(LoginVM lvm, ViewHandler viewHandlerLogin) {
         this.loginViewModel = lvm;
-        this.viewHandlerLogin = viewHandlerLogin;
+        this.viewHandler = viewHandlerLogin;
 
         IdTextField.textProperty().bindBidirectional(lvm.userNameProperty());
         passwordTextField.textProperty().bindBidirectional(lvm.passwordProperty());
@@ -27,13 +28,14 @@ public class LoginController {
 
 
     // called when Login Button is pressed
-    public void onLoginButton(ActionEvent actionEvent) {
+    public void onLoginButton(ActionEvent actionEvent) throws RemoteException {
         String result = loginViewModel.validateLogin();
 
         if("OK".equals(result)){
             loginViewModel.clearFields();
             loginViewModel.registerClient();
             //open OverviewController window
+
         }else {
             // Login failed
             JOptionPane.showMessageDialog(null, result,"Login failed", JOptionPane.ERROR_MESSAGE);
@@ -48,12 +50,12 @@ public class LoginController {
     // Opening Create New User view.
     public void onCreateUserButton(ActionEvent actionEvent) {
         loginViewModel.clearFields();
-        viewHandlerLogin.openCreateUserView();
+        viewHandler.openCreateUserView();
     }
 
     // Opening Change Password view.
     public void onChangePassword(ActionEvent actionEvent) {
         loginViewModel.clearFields();
-        viewHandlerLogin.openChangePasswordView();
+        viewHandler.openChangePasswordView();
     }
 }

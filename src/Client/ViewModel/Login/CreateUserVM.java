@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.rmi.RemoteException;
+
 public class CreateUserVM {
     // properties to hold the data shown/created in the controller
     private StringProperty Id = new SimpleStringProperty();
@@ -32,7 +34,7 @@ public class CreateUserVM {
 
     // method called by the controller, when the user wants to create a new user
     // relevant data is retrieved from the properties, and forwarded to the model
-    public String attemptCreateUser() {
+    public String attemptCreateUser() throws RemoteException {
         String result = model.createUser(Id.getValue(), name.getValue(), password.getValue(), passwordAgain.getValue());
 
         return result;

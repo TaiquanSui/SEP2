@@ -1,5 +1,6 @@
 package Client.View;
 
+import Client.Networking.IClient;
 import Client.View.Login.ChangePasswordController;
 import Client.View.Login.CreateUserController;
 import Client.View.Login.LoginController;

@@ -3,6 +3,8 @@ package Client.Model.Login;
 import Client.Networking.IClient;
 import Shared.Model.User;
 
+import java.rmi.RemoteException;
+
 public class LoginModelImpl implements ILoginModel{
 
     private IClient client;
@@ -13,19 +15,20 @@ public class LoginModelImpl implements ILoginModel{
 
 
     @Override
-    public void registerClient (String Id) {
-        client.registerClient(Id);
+    public void registerClient (String email) throws RemoteException {
+        User user = client.getUser(email);
+        client.registerClient(user.getId());
     }
 
     @Override
-    public String validateLogin(String email, String password) {
+    public String validateLogin(String email, String password) throws RemoteException{
         String result = checkLoginCredentials(email, password);
 
         return result;
     }
 
     @Override
-    public String createUser(String email, String id, String pw, String pwAgain) {
+    public String createUser(String email, String id, String pw, String pwAgain) throws RemoteException {
         String result = attemptCreateUser(email, pw, pwAgain);
 
         if("OK".equals(result)) {
@@ -36,7 +39,7 @@ public class LoginModelImpl implements ILoginModel{
     }
 
     @Override
-    public String changePassword(String email, String pw, String newPw, String newPwAgain) {
+    public String changePassword(String email, String pw, String newPw, String newPwAgain) throws RemoteException {
         String result = checkUpdateNewPW(email, pw, newPw, newPwAgain);
 
         if("OK".equals(result)) {
@@ -59,7 +62,7 @@ public class LoginModelImpl implements ILoginModel{
 
 
     // get user and check if the password is correct
-    private String checkLoginCredentials(String email, String password){
+    private String checkLoginCredentials(String email, String password) throws RemoteException{
         User user = client.getUser(email);
 
         if(user == null) {
@@ -74,7 +77,7 @@ public class LoginModelImpl implements ILoginModel{
 
 
     // Check if the user already exists and validate password
-    private String attemptCreateUser(String email, String pw, String pwAgain) {
+    private String attemptCreateUser(String email, String pw, String pwAgain) throws RemoteException {
         if(email == null) {
             return "Username cannot be empty";
         }
@@ -135,7 +138,7 @@ public class LoginModelImpl implements ILoginModel{
         return foundLowerCase;
     }
 
-    private String checkUpdateNewPW(String username, String pw, String newPw, String newPwAgain) {
+    private String checkUpdateNewPW(String username, String pw, String newPw, String newPwAgain) throws RemoteException {
 
         // check that username and pw is correct;
         if(!"OK".equals(checkLoginCredentials(username, pw))) {

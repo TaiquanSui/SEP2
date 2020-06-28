@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
+import java.rmi.RemoteException;
 
 public class ChangePasswordController {
 
@@ -39,7 +40,7 @@ public class ChangePasswordController {
 
 
     // method called when the Update Password button is pressed
-    public void onUpdatePasswordButton(ActionEvent actionEvent) {
+    public void onUpdatePasswordButton(ActionEvent actionEvent) throws RemoteException {
         String result = changePasswordVM.updatePassword();
 
         if("Ok".equals(result)){
