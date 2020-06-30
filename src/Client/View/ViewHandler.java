@@ -38,7 +38,7 @@ public class ViewHandler {
             if(loginScene == null) {
                 FXMLLoader loader = new FXMLLoader(); // creating fx loader, which can load fxml and create controller
 
-                loader.setLocation(getClass().getResource("../views/Login.fxml"));
+                loader.setLocation(getClass().getResource("Login/Login.fxml"));
 
                 // loading scene root. This contains every object in the scene
                 // It's a tree structure similar to XML or HTML
@@ -63,22 +63,6 @@ public class ViewHandler {
         }
     }
 
-    public void openLoggedInSuccesfulView() {
-        // no need to store for future use, I only get to this view once
-        try {
-            FXMLLoader loader = new FXMLLoader();
-
-            loader.setLocation(getClass().getResource("../views/LoginResult.fxml"));
-            Parent root = loader.load();
-
-            mainStage.setTitle("Logged in");
-
-            Scene scene = new Scene(root);
-            mainStage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private Scene createUserScene;
     public void openCreateUserView() {
@@ -87,7 +71,7 @@ public class ViewHandler {
             if(createUserScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
-                loader.setLocation(getClass().getResource("../views/CreateUser.fxml"));
+                loader.setLocation(getClass().getResource("Login/CreateUser.fxml"));
                 Parent root = loader.load();
 
                 CreateUserController view = loader.getController();
@@ -110,7 +94,7 @@ public class ViewHandler {
             if(changePWScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
-                loader.setLocation(getClass().getResource("../views/ChangePassword.fxml"));
+                loader.setLocation(getClass().getResource("Login/ChangePassword.fxml"));
                 Parent root = loader.load();
 
                 ChangePasswordController view = loader.getController();

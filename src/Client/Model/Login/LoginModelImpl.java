@@ -28,11 +28,14 @@ public class LoginModelImpl implements ILoginModel{
     }
 
     @Override
-    public String createUser(String email, String id, String pw, String pwAgain) throws RemoteException {
+    public String createUser(String email, String pw, String pwAgain) throws RemoteException {
         String result = attemptCreateUser(email, pw, pwAgain);
 
         if("OK".equals(result)) {
-            client.createNewUser(new User(email, pw));
+            boolean createAccount = client.createNewUser(new User(email, pw));
+            if(!createAccount){
+                result = "server failed";
+            }
         }
 
         return result;
@@ -54,7 +57,7 @@ public class LoginModelImpl implements ILoginModel{
 
 
 
-    /*
+    /**
 
         necessary private methods for login
 
@@ -78,9 +81,6 @@ public class LoginModelImpl implements ILoginModel{
 
     // Check if the user already exists and validate password
     private String attemptCreateUser(String email, String pw, String pwAgain) throws RemoteException {
-        if(email == null) {
-            return "Username cannot be empty";
-        }
         if(client.getUser(email) != null) {
             return "Username already exists";
         }

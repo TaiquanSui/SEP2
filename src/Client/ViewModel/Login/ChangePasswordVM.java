@@ -14,8 +14,8 @@ public class ChangePasswordVM {
     private final ILoginModel loginModel; // reference to the model interface. I don't know about the actual implementation
 
     // String properties to hold the data shown/created in the view
-    private StringProperty username = new SimpleStringProperty();
-    private StringProperty password = new SimpleStringProperty();
+    private StringProperty email = new SimpleStringProperty();
+    private StringProperty oldPassword = new SimpleStringProperty();
     private StringProperty newPassword = new SimpleStringProperty();
     private StringProperty newPasswordAgain = new SimpleStringProperty();
 
@@ -29,26 +29,26 @@ public class ChangePasswordVM {
     // method called by the controller, when the user requests to update the password.
     // relevant information is retrieved from the properties, and forwarded to the model
     public String updatePassword() throws RemoteException {
-        String result = loginModel.changePassword(username.getValue(), password.getValue(), newPassword.get(), newPasswordAgain.get());
+        String result = loginModel.changePassword(email.getValue(), oldPassword.getValue(), newPassword.get(), newPasswordAgain.get());
 
         return result;
     }
 
     // method to clear the data in the properties
     public void clearFields() {
-        username.setValue("");
-        password.setValue("");
+        email.setValue("");
+        oldPassword.setValue("");
         newPassword.setValue("");
         newPasswordAgain.setValue("");
     }
 
     // methods to get the properties, so the controller can bind to them
-    public StringProperty usernameProperty() {
-        return username;
+    public StringProperty emailProperty() {
+        return email;
     }
 
-    public StringProperty passwordProperty() {
-        return password;
+    public StringProperty oldPasswordProperty() {
+        return oldPassword;
     }
 
     public StringProperty newPasswordProperty() {

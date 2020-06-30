@@ -15,9 +15,9 @@ public class ChangePasswordController {
     // In intellij, just to the left, you should see small icons indicating that intellij knows about the
     // connection to the fxml file
     @FXML
-    public TextField idTextField;
+    public TextField emailTextField;
     @FXML
-    public TextField passwordTextField;
+    public TextField oldPasswordTextField;
     @FXML
     public TextField newPasswordTextField;
     @FXML
@@ -32,8 +32,8 @@ public class ChangePasswordController {
         viewHandler = vh;
 
         // making the bindings, so data can flow to the View Model, and back again, automatically.
-        idTextField.textProperty().bindBidirectional(changePasswordVM.usernameProperty());
-        passwordTextField.textProperty().bindBidirectional(changePasswordVM.passwordProperty());
+        emailTextField.textProperty().bindBidirectional(changePasswordVM.emailProperty());
+        oldPasswordTextField.textProperty().bindBidirectional(changePasswordVM.oldPasswordProperty());
         newPasswordTextField.textProperty().bindBidirectional(changePasswordVM.newPasswordProperty());
         newPasswordAgainTextField.textProperty().bindBidirectional(changePasswordVM.newPasswordAgainProperty());
     }

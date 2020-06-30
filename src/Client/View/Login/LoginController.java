@@ -4,6 +4,7 @@ import Client.View.ViewHandler;
 import Client.ViewModel.Login.LoginVM;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
@@ -11,9 +12,14 @@ import java.rmi.RemoteException;
 
 public class LoginController {
     @FXML
-    private TextField IdTextField;
+    private TextField emailTextField;
     @FXML
     private TextField passwordTextField;
+    @FXML
+    private RadioButton UserRadioButton;
+    @FXML
+    private RadioButton AdministratorRadioButton;
+
 
     private LoginVM loginViewModel;
     private ViewHandler viewHandler;
@@ -22,8 +28,12 @@ public class LoginController {
         this.loginViewModel = lvm;
         this.viewHandler = viewHandlerLogin;
 
-        IdTextField.textProperty().bindBidirectional(lvm.userNameProperty());
+        UserRadioButton.setSelected(true);
+
+        emailTextField.textProperty().bindBidirectional(lvm.userNameProperty());
         passwordTextField.textProperty().bindBidirectional(lvm.passwordProperty());
+        UserRadioButton.selectedProperty().bindBidirectional(lvm.isUserProperty());
+        AdministratorRadioButton.selectedProperty().bindBidirectional(lvm.isAdministratorProperty());
     }
 
 
@@ -36,16 +46,12 @@ public class LoginController {
             loginViewModel.registerClient();
             //open OverviewController window
 
-        }else {
+        }else{
             // Login failed
             JOptionPane.showMessageDialog(null, result,"Login failed", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    // Called when Exit Button is pressed. Just terminating the application
-    public void onExitButton(ActionEvent actionEvent) {
-        System.exit(0);
-    }
 
     // Opening Create New User view.
     public void onCreateUserButton(ActionEvent actionEvent) {
@@ -54,8 +60,13 @@ public class LoginController {
     }
 
     // Opening Change Password view.
-    public void onChangePassword(ActionEvent actionEvent) {
+    public void onChangePasswordButton(ActionEvent actionEvent) {
         loginViewModel.clearFields();
         viewHandler.openChangePasswordView();
+    }
+
+    // Called when Exit Button is pressed. Just terminating the application
+    public void onExitButton(ActionEvent actionEvent) {
+        System.exit(0);
     }
 }

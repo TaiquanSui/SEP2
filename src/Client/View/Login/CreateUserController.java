@@ -9,6 +9,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
+import java.rmi.RemoteException;
 
 public class CreateUserController {
     // setting up all the connections to various GUI elements: Text fields and labels.
@@ -16,18 +17,15 @@ public class CreateUserController {
     // Notice the small icon to the left, indicating IntelliJ knows about the connection.
     // If the Icon is not there, something is wrong
     @FXML
-    private TextField passwordAgainTextField;
+    private TextField emailTextField;
     @FXML
     private TextField passwordTextField;
     @FXML
-    private TextField idTextField;
+    private TextField passwordAgainTextField;
     @FXML
-    private TextField nameTextField;
+    private RadioButton isUser;
     @FXML
-    private RadioButton customer;
-    @FXML
-    private RadioButton administrator;
-
+    private RadioButton isAdministrator;
 
 
     private CreateUserVM createUserVM;
@@ -37,35 +35,27 @@ public class CreateUserController {
         this.createUserVM = createUserVM;
         this.viewHandler = viewHandler;
 
-        customer.setSelected(true);
+        isUser.setSelected(true);
 
         // setting up bidirectional bindings, so data can flow automatically between controller and view model
-        idTextField.textProperty().bindBidirectional(createUserVM.IdProperty());
+        emailTextField.textProperty().bindBidirectional(createUserVM.emailProperty());
         passwordTextField.textProperty().bindBidirectional(createUserVM.passwordProperty());
         passwordAgainTextField.textProperty().bindBidirectional(createUserVM.passwordAgainProperty());
-        nameTextField.textProperty().bindBidirectional(createUserVM.nameProperty());
-        customer.selectedProperty().bindBidirectional(createUserVM.isCustomerProperty());
-        administrator.selectedProperty().bindBidirectional(createUserVM.isAdministratorProperty());
+        isUser.selectedProperty().bindBidirectional(createUserVM.isCustomerProperty());
+        isAdministrator.selectedProperty().bindBidirectional(createUserVM.isAdministratorProperty());
     }
 
-    // method called, when the content of the result label changes. This is changed from the View Model, based on the
-    // result of the Model.
-    // If all is okay, then I clear the fields, and open the login view, assuming the user has been created.
-    private void onCreateUser(Observable observable, String old, String newVal) {
-        if("OK".equals(newVal)) {
-            createUserVM.clearFields();
-            viewHandler.openLoginView();
-        }
-    }
 
     // method called, when the create user button is pressed.
     // make the View Model handle the request
-    public void onCreateUserButton(ActionEvent actionEvent) {
+    public void onCreateUserButton(ActionEvent actionEvent) throws RemoteException {
         String result = createUserVM.attemptCreateUser();
 
         if("OK".equals(result)){
             createUserVM.clearFields();
             viewHandler.openLoginView();
+            JOptionPane.showMessageDialog(null, result,"Account Successfully created", JOptionPane.INFORMATION_MESSAGE);
+
         }else {
             JOptionPane.showMessageDialog(null, result,"User create failed", JOptionPane.ERROR_MESSAGE);
         }

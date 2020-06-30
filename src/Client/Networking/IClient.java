@@ -11,8 +11,8 @@ public interface IClient extends Remote {
     void sendMessage(String msg, String email) throws RemoteException;
     void receiveMessage(String msg, String email) throws RemoteException;
 
-    void createNewUser(User user) throws RemoteException;
-    User getUser(String CustomerId) throws RemoteException;
+    boolean createNewUser(User user) throws RemoteException;
+    User getUser(String email) throws RemoteException;
     void changePassword(String Id, String newPw) throws RemoteException;
 
 }

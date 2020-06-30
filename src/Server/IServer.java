@@ -5,18 +5,19 @@ import Shared.Model.Message;
 import Shared.Model.User;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface IServer extends Remote {
-    boolean registerClient(IClient client, String name);
+    boolean registerClient(IClient client, String name) throws RemoteException;
 
-    void createNewUser(User user);
-    void changePassword(String Id, String newPw);
-    User getUser(String CustomerId);
-    void logout(String name);
+    boolean createNewUser(User user) throws RemoteException;
+    void changePassword(String Id, String newPw) throws RemoteException;
+    User getUser(String CustomerId) throws RemoteException;
+    void logout(String name) throws RemoteException;
 
-    void sendMessage(String msg, String name);
-    ArrayList<Message> getMessages(String clientID);
+    void sendMessage(String msg, String name) throws RemoteException;
+    ArrayList<Message> getMessages(String clientID) throws RemoteException;
 
 
 }
