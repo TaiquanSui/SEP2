@@ -1,6 +1,7 @@
 package Client.Networking;
 
 import Server.IServer;
+import Shared.Model.Product;
 import Shared.Model.User;
 
 import java.rmi.NotBoundException;
@@ -8,6 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 
 public class ClientImpl implements IClient{
@@ -24,7 +26,7 @@ public class ClientImpl implements IClient{
 
     @Override
     public void registerClient(String id) throws RemoteException {
-
+        server.registerClient(this,id);
     }
 
     @Override
@@ -50,5 +52,10 @@ public class ClientImpl implements IClient{
     @Override
     public void changePassword(String Id, String newPw) throws RemoteException {
 
+    }
+
+    @Override
+    public ArrayList<Product> getProductList(String searchText) throws RemoteException {
+        return server.getProductList(searchText);
     }
 }

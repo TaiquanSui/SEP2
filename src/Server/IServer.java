@@ -2,6 +2,7 @@ package Server;
 
 import Client.Networking.IClient;
 import Shared.Model.Message;
+import Shared.Model.Product;
 import Shared.Model.User;
 
 import java.rmi.Remote;
@@ -18,6 +19,6 @@ public interface IServer extends Remote {
 
     void sendMessage(String msg, String name) throws RemoteException;
     ArrayList<Message> getMessages(String clientID) throws RemoteException;
-
-
+    
+    ArrayList<Product> getProductList(String searchText) throws RemoteException;
 }

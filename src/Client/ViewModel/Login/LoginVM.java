@@ -36,9 +36,6 @@ public class LoginVM {
         }
     }
 
-    public void registerClient() throws RemoteException {
-        loginModel.registerClient(email.getValue());
-    }
 
     // method to clear the data in the properties
     public void clearFields() {

@@ -1,14 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Client.View.UserService.AddProductController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="698.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.UserService.AddProductController">
+   <children>
+      <GridPane layoutX="114.0" layoutY="57.0" prefHeight="499.0" prefWidth="380.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="162.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="226.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <TextField fx:id="Name" prefHeight="33.0" GridPane.columnIndex="1" />
+            <TextField fx:id="Number" prefHeight="33.0" prefWidth="253.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="Position" prefHeight="33.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="Note" prefHeight="71.0" prefWidth="231.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Name :">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label text="Price :" GridPane.rowIndex="1">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label text="Position :" GridPane.rowIndex="2">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label prefHeight="25.0" prefWidth="206.0" text="Leave Day :" GridPane.rowIndex="5">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label text="Detail :" GridPane.rowIndex="6">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <TextField fx:id="LeaveDay" prefHeight="33.0" prefWidth="78.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="LeaveMonth" prefHeight="33.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="LeaveYear" prefHeight="33.0" prefWidth="260.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Leave Year :" GridPane.rowIndex="3">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label text="Leave Month:" GridPane.rowIndex="4">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
+      <Button layoutX="169.0" layoutY="597.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="91.0" text="Add" />
+      <Button layoutX="356.0" layoutY="597.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="91.0" text="Cancel" />
+   </children>
 </AnchorPane>

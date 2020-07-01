@@ -43,8 +43,9 @@ public class LoginController {
 
         if("OK".equals(result)){
             loginViewModel.clearFields();
-            loginViewModel.registerClient();
             //open OverviewController window
+            JOptionPane.showMessageDialog(null, "Login successfully",null, JOptionPane.INFORMATION_MESSAGE);
+            viewHandler.openSearchProductView();
 
         }else{
             // Login failed

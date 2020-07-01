@@ -20,7 +20,7 @@ public class DBProduct {
         return pstmt.executeUpdate();
     }
 
-    public ResultSet list(Connection con, Product product, String name) throws Exception//, RemoteException
+    public ResultSet getProductList(Connection con, String name) throws Exception//, RemoteException
     {
 //		StringBuffer sb=new StringBuffer("select * from product");
 ////		PreparedStatement pstmt=con.prepareStatement(sql);

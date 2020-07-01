@@ -15,14 +15,8 @@ public class LoginModelImpl implements ILoginModel{
 
 
     @Override
-    public void registerClient (String email) throws RemoteException {
-        User user = client.getUser(email);
-        client.registerClient(user.getId());
-    }
-
-    @Override
     public String validateLogin(String email, String password) throws RemoteException{
-        String result = checkLoginCredentials(email, password);
+        String result = checkLogin(email, password);
 
         return result;
     }
@@ -65,8 +59,9 @@ public class LoginModelImpl implements ILoginModel{
 
 
     // get user and check if the password is correct
-    private String checkLoginCredentials(String email, String password) throws RemoteException{
+    private String checkLogin(String email, String password) throws RemoteException{
         User user = client.getUser(email);
+        client.registerClient(user.getId());
 
         if(user == null) {
             return "User not found";
@@ -141,7 +136,7 @@ public class LoginModelImpl implements ILoginModel{
     private String checkUpdateNewPW(String username, String pw, String newPw, String newPwAgain) throws RemoteException {
 
         // check that username and pw is correct;
-        if(!"OK".equals(checkLoginCredentials(username, pw))) {
+        if(!"OK".equals(checkLogin(username, pw))) {
             return "Incorrect login credentials";
         }
 

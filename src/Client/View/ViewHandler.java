@@ -1,9 +1,9 @@
 package Client.View;
 
-import Client.Networking.IClient;
 import Client.View.Login.ChangePasswordController;
 import Client.View.Login.CreateUserController;
 import Client.View.Login.LoginController;
+import Client.View.UserService.SearchProductController;
 import Client.ViewModel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,8 +13,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ViewHandler {
+
     private final ViewModelFactory viewModelFactory;
     private Stage mainStage;
+
 
     public ViewHandler(ViewModelFactory lvm) {
         this.viewModelFactory = lvm;
@@ -28,6 +30,7 @@ public class ViewHandler {
         openLoginView();
         mainStage.show();
     }
+
 
     private Scene loginScene;
     public void openLoginView() {
@@ -109,4 +112,132 @@ public class ViewHandler {
             e.printStackTrace();
         }
     }
+
+
+    private Scene overviewScene;
+    public void openOverview() {
+        try {
+            // no need to load the same scene more than once. I can just reuse it
+            if(overviewScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("UserService/Overview.fxml"));
+                Parent root = loader.load();
+
+                SearchProductController view = loader.getController();
+                view.init(viewModelFactory.getSearchProductVM(), this);
+
+                // storing scene in field variable for future use
+                overviewScene = new Scene(root);
+            }
+            mainStage.setTitle("Overview");
+            mainStage.setScene(overviewScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+//viewmodel都没改
+
+
+    private Scene searchProductScene;
+    public void openSearchProductView() {
+        try {
+            // no need to load the same scene more than once. I can just reuse it
+            if(searchProductScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("UserService/SearchProduct.fxml"));
+                Parent root = loader.load();
+
+                SearchProductController view = loader.getController();
+                view.init(viewModelFactory.getSearchProductVM(), this);
+
+                // storing scene in field variable for future use
+                searchProductScene = new Scene(root);
+            }
+            mainStage.setTitle("Search Product");
+            mainStage.setScene(searchProductScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Scene sellerOverviewScene;
+    public void openSellerOverviewView() {
+        try {
+            // no need to load the same scene more than once. I can just reuse it
+            if(sellerOverviewScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("UserService/SellerOverview.fxml"));
+                Parent root = loader.load();
+
+                SearchProductController view = loader.getController();
+                view.init(viewModelFactory.getSearchProductVM(), this);
+
+                // storing scene in field variable for future use
+                sellerOverviewScene = new Scene(root);
+            }
+            mainStage.setTitle("Seller Overview");
+            mainStage.setScene(sellerOverviewScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Scene addProductScene;
+    public void openAddProductView() {
+        try {
+            // no need to load the same scene more than once. I can just reuse it
+            if(addProductScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("UserService/AddProduct.fxml"));
+                Parent root = loader.load();
+
+                SearchProductController view = loader.getController();
+                view.init(viewModelFactory.getSearchProductVM(), this);
+
+                // storing scene in field variable for future use
+                addProductScene = new Scene(root);
+            }
+            mainStage.setTitle("Add Product");
+            mainStage.setScene(addProductScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Scene editProductScene;
+    public void openEditProductView() {
+        try {
+            // no need to load the same scene more than once. I can just reuse it
+            if(editProductScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("UserService/EditProduct.fxml"));
+                Parent root = loader.load();
+
+                SearchProductController view = loader.getController();
+                view.init(viewModelFactory.getSearchProductVM(), this);
+
+                // storing scene in field variable for future use
+                editProductScene = new Scene(root);
+            }
+            mainStage.setTitle("Edit Product");
+            mainStage.setScene(editProductScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 }

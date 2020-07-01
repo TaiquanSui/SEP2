@@ -2,6 +2,7 @@ package Server;
 
 import Client.Networking.IClient;
 import Shared.Model.Message;
+import Shared.Model.Product;
 import Shared.Model.User;
 import Shared.util.DBProduct;
 import Shared.util.DBUser;
@@ -10,6 +11,7 @@ import Shared.util.DBUtil;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +35,14 @@ public class ServerImpl implements IServer{
 
 
     @Override
-    public boolean registerClient(IClient client, String name) throws RemoteException {
-        return false;
+    public boolean registerClient(IClient userClient, String id) throws RemoteException {
+        for (ClientContainer client : clients) {
+            if(client.id.equals(id)) return false;
+        }
+
+        clients.add(new ClientContainer(id, userClient));
+
+        return true;
     }
 
     @Override
@@ -78,14 +86,19 @@ public class ServerImpl implements IServer{
         return null;
     }
 
-    @Override
-    public void logout(String name) throws RemoteException {
 
-    }
 
     @Override
-    public void sendMessage(String msg, String name) throws RemoteException {
+    public void sendMessage(String msg, String id) throws RemoteException {
+        for (ClientContainer client : clients) {
+            if(client.id.equals(id)) continue;
 
+            try {
+                client.client.receiveMessage(msg, id);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -93,15 +106,45 @@ public class ServerImpl implements IServer{
         return null;
     }
 
+    @Override
+    public ArrayList<Product> getProductList(String searchText) throws RemoteException {
+        Connection con =null;
+
+        try {
+            con= dbUtil.getCon();
+            ResultSet rs=dbProduct.getProductList(con,searchText);
+            ArrayList<Product> products = new ArrayList<Product>();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                double price = Double.parseDouble(rs.getString("price"));
+                String detail = rs.getString("detail");
+                String seller = rs.getString("seller");
+
+                Product product = new Product(id, name, price, detail, seller);
+                products.add(product);
+            }
+
+            return products;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
-
-
-
-
-
-
-
+    @Override
+    public void logout(String id) {
+        IClient toRemove = null;
+        for (ClientContainer client : clients) {
+            if(client.id.equals(id)) {
+                toRemove = client.client;
+            }
+        }
+        clients.remove(toRemove);
+    }
 
 
 
@@ -111,11 +154,11 @@ public class ServerImpl implements IServer{
 
 
     private class ClientContainer {
-        String name;
+        String id;
         IClient client;
 
-        ClientContainer(String name, IClient client) {
-            this.name = name;
+        ClientContainer(String id, IClient client) {
+            this.id = id;
             this.client = client;
         }
     }

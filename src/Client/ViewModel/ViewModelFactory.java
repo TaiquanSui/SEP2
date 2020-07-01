@@ -4,12 +4,15 @@ import Client.Model.ModelFactory;
 import Client.ViewModel.Login.ChangePasswordVM;
 import Client.ViewModel.Login.CreateUserVM;
 import Client.ViewModel.Login.LoginVM;
+import Client.ViewModel.UserService.SearchProductVM;
 
 public class ViewModelFactory {
     private final ModelFactory modelFactory;
     private LoginVM loginVM;
     private CreateUserVM createUserVM;
     private ChangePasswordVM changePasswordVM;
+
+    private SearchProductVM searchProductVM;
 
     public ViewModelFactory(ModelFactory mf) {
         this.modelFactory = mf;
@@ -37,4 +40,14 @@ public class ViewModelFactory {
         }
         return changePasswordVM;
     }
+
+    public SearchProductVM getSearchProductVM() {
+        // using lazy instantiation, to ensure only one LoginVM is created, and it can subsequently be reused
+        // I could also have instantiated them in modelimpls constructor
+        if(searchProductVM == null) {
+            searchProductVM = new SearchProductVM(modelFactory.getUserServiceModel());
+        }
+        return searchProductVM;
+    }
+
 }
