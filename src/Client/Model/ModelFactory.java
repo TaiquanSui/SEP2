@@ -13,7 +13,7 @@ public class ModelFactory {
     private IClient client;
 
     private LoginModelImpl loginModel;
-    private IUserServiceModel userServiceModel;
+    private UserServiceImpl userServiceModel;
 
     public ModelFactory(IClient client){
         this.client = client;

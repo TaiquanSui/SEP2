@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.rmi.RemoteException;
 
 public class LoginController {
+
     @FXML
     private TextField emailTextField;
     @FXML

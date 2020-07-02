@@ -4,7 +4,7 @@ import Client.Model.ModelFactory;
 import Client.ViewModel.Login.ChangePasswordVM;
 import Client.ViewModel.Login.CreateUserVM;
 import Client.ViewModel.Login.LoginVM;
-import Client.ViewModel.UserService.SearchProductVM;
+import Client.ViewModel.UserService.*;
 
 public class ViewModelFactory {
     private final ModelFactory modelFactory;
@@ -12,11 +12,21 @@ public class ViewModelFactory {
     private CreateUserVM createUserVM;
     private ChangePasswordVM changePasswordVM;
 
+    private OverviewVM overviewVM;
+
     private SearchProductVM searchProductVM;
+
+    private SellerOverviewVM sellerOverviewVM;
+    private AddProductVM addProductVM;
+    private EditProductVM editProductVM;
+
 
     public ViewModelFactory(ModelFactory mf) {
         this.modelFactory = mf;
     }
+
+
+
 
     public LoginVM getLoginVM() {
         // using lazy instantiation, to ensure only one LoginVM is created, and it can subsequently be reused
@@ -41,13 +51,65 @@ public class ViewModelFactory {
         return changePasswordVM;
     }
 
+
+
+
+
+
+
+
+    public OverviewVM getOverviewVM() {
+        if(overviewVM == null) {
+            overviewVM = new OverviewVM(modelFactory.getUserServiceModel());
+        }
+        return overviewVM;
+    }
+
+
+
+
+
+
+
+
     public SearchProductVM getSearchProductVM() {
-        // using lazy instantiation, to ensure only one LoginVM is created, and it can subsequently be reused
-        // I could also have instantiated them in modelimpls constructor
         if(searchProductVM == null) {
             searchProductVM = new SearchProductVM(modelFactory.getUserServiceModel());
         }
         return searchProductVM;
     }
+
+
+
+
+
+
+    public SellerOverviewVM getSellerOverviewVM() {
+        if(sellerOverviewVM == null) {
+            sellerOverviewVM = new SellerOverviewVM(modelFactory.getUserServiceModel());
+        }
+        return sellerOverviewVM;
+    }
+
+    public AddProductVM getAddProductVM() {
+        if(addProductVM == null) {
+            addProductVM = new AddProductVM(modelFactory.getUserServiceModel());
+        }
+        return addProductVM;
+    }
+
+    public EditProductVM getEditProductVM() {
+        if(editProductVM == null) {
+            editProductVM = new EditProductVM(modelFactory.getUserServiceModel());
+        }
+        return editProductVM;
+    }
+
+
+
+
+
+
+
 
 }

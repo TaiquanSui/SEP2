@@ -3,7 +3,11 @@ package Client.View;
 import Client.View.Login.ChangePasswordController;
 import Client.View.Login.CreateUserController;
 import Client.View.Login.LoginController;
+import Client.View.UserService.AddProductController;
+import Client.View.UserService.EditProductController;
 import Client.View.UserService.SearchProductController;
+import Client.View.UserService.SellerOverviewController;
+import Client.ViewModel.UserService.SellerOverviewVM;
 import Client.ViewModel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -139,10 +143,6 @@ public class ViewHandler {
 
 
 
-
-//viewmodel都没改
-
-
     private Scene searchProductScene;
     public void openSearchProductView() {
         try {
@@ -176,8 +176,8 @@ public class ViewHandler {
                 loader.setLocation(getClass().getResource("UserService/SellerOverview.fxml"));
                 Parent root = loader.load();
 
-                SearchProductController view = loader.getController();
-                view.init(viewModelFactory.getSearchProductVM(), this);
+                SellerOverviewController view = loader.getController();
+                view.init(viewModelFactory.getSellerOverviewVM(), this);
 
                 // storing scene in field variable for future use
                 sellerOverviewScene = new Scene(root);
@@ -199,8 +199,8 @@ public class ViewHandler {
                 loader.setLocation(getClass().getResource("UserService/AddProduct.fxml"));
                 Parent root = loader.load();
 
-                SearchProductController view = loader.getController();
-                view.init(viewModelFactory.getSearchProductVM(), this);
+                AddProductController view = loader.getController();
+                view.init(viewModelFactory.getAddProductVM(), this);
 
                 // storing scene in field variable for future use
                 addProductScene = new Scene(root);
@@ -222,8 +222,8 @@ public class ViewHandler {
                 loader.setLocation(getClass().getResource("UserService/EditProduct.fxml"));
                 Parent root = loader.load();
 
-                SearchProductController view = loader.getController();
-                view.init(viewModelFactory.getSearchProductVM(), this);
+                EditProductController view = loader.getController();
+                view.init(viewModelFactory.getEditProductVM(), this);
 
                 // storing scene in field variable for future use
                 editProductScene = new Scene(root);
