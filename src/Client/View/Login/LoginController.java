@@ -25,9 +25,9 @@ public class LoginController {
     private LoginVM loginViewModel;
     private ViewHandler viewHandler;
 
-    public void init(LoginVM lvm, ViewHandler viewHandlerLogin) {
+    public void init(LoginVM lvm, ViewHandler viewHandler) {
         this.loginViewModel = lvm;
-        this.viewHandler = viewHandlerLogin;
+        this.viewHandler = viewHandler;
 
         UserRadioButton.setSelected(true);
 
@@ -46,7 +46,7 @@ public class LoginController {
             loginViewModel.clearFields();
             //open OverviewController window
             JOptionPane.showMessageDialog(null, "Login successfully",null, JOptionPane.INFORMATION_MESSAGE);
-            viewHandler.openSearchProductView();
+            viewHandler.openOverview();
 
         }else{
             // Login failed

@@ -8,6 +8,7 @@ import Shared.util.DBProduct;
 import Shared.util.DBUser;
 import Shared.util.DBUtil;
 
+import javax.swing.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -35,12 +36,12 @@ public class ServerImpl implements IServer{
 
 
     @Override
-    public boolean registerClient(IClient userClient, String id) throws RemoteException {
+    public boolean registerClient(IClient userClient, String email) throws RemoteException {
         for (ClientContainer client : clients) {
-            if(client.id.equals(id)) return false;
+            if(client.id.equals(email)) return false;
         }
 
-        clients.add(new ClientContainer(id, userClient));
+        clients.add(new ClientContainer(email, userClient));
 
         return true;
     }
@@ -132,6 +133,69 @@ public class ServerImpl implements IServer{
         }
 
         return null;
+    }
+
+
+
+    @Override
+    public boolean addProduct(Product product) throws RemoteException {
+        Connection con =null;
+
+        try {
+            con=dbUtil.getCon();
+
+            //int currentProduct=remoteProduct.add(con, product);
+            int currentProduct=dbProduct.add(con, product);
+
+            if(currentProduct==1) {
+                return true;
+            }else {
+                return false;
+            }
+
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return false;
+        }finally {
+            try {
+                dbUtil.closeCon(con);
+            }catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public boolean editProduct(Product product) {
+        Connection con =null;
+
+        try {
+            con=dbUtil.getCon();
+
+            //int currentProduct=remoteProduct.add(con, product);
+            int currentProduct=dbProduct.update(con, product);
+
+            if(currentProduct==1) {
+                return true;
+            }else {
+                return false;
+            }
+
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return false;
+
+        }finally {
+            try {
+                dbUtil.closeCon(con);
+            }catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
     }
 
 

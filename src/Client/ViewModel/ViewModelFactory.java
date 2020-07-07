@@ -19,6 +19,7 @@ public class ViewModelFactory {
     private SellerOverviewVM sellerOverviewVM;
     private AddProductVM addProductVM;
     private EditProductVM editProductVM;
+    private ChatVM chatVM;
 
 
     public ViewModelFactory(ModelFactory mf) {
@@ -105,7 +106,12 @@ public class ViewModelFactory {
         return editProductVM;
     }
 
-
+    public ChatVM getChatVM() {
+        if(chatVM == null) {
+            chatVM = new ChatVM(modelFactory.getUserServiceModel());
+        }
+        return chatVM;
+    }
 
 
 

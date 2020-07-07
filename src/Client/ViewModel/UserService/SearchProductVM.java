@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class SearchProductVM {
+
     private final IUserServiceModel iUserServiceModel; // reference to the Model interface
     private StringProperty searchProperty = new SimpleStringProperty(); // holds the username from the GUI textfield
 

@@ -2,14 +2,14 @@ package Client.View.UserService;
 
 import Client.View.ViewHandler;
 import Client.ViewModel.UserService.AddProductVM;
-import Client.ViewModel.UserService.SearchProductVM;
-import Shared.Model.Product;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+
+import javax.swing.*;
+import java.rmi.RemoteException;
 
 public class AddProductController {
 
@@ -20,11 +20,6 @@ public class AddProductController {
     @FXML
     private TextArea detail;
 
-    @FXML
-    private Button add;
-    @FXML
-    private Button cancel;
-
     private AddProductVM addProductVM;
     private ViewHandler viewHandler;
 
@@ -32,10 +27,26 @@ public class AddProductController {
         this.addProductVM = addProductVM;
         this.viewHandler = viewHandler;
 
+        name.textProperty().bindBidirectional(addProductVM.nameProperty());
+        price.textProperty().bindBidirectional(addProductVM.priceProperty());
+        detail.textProperty().bindBidirectional(addProductVM.detailProperty());
+
     }
 
 
+    public void onAddButton(ActionEvent actionEvent) throws RemoteException {
+        String result = addProductVM.addProduct();
 
+        if("OK".equals(result)){
+            addProductVM.clearFields();
+            //open OverviewController window
+            JOptionPane.showMessageDialog(null, "Add successfully",null, JOptionPane.INFORMATION_MESSAGE);
+            viewHandler.openSearchProductView();
+
+        }else{
+            JOptionPane.showMessageDialog(null, result,"Add failed", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 
 

@@ -19,8 +19,38 @@ public class UserServiceImpl implements IUserServiceModel {
         return client.getProductList(searchText);
     }
 
+    @Override
+    public String addProduct(String name, double price, String detail) throws RemoteException {
+        String seller = client.getEmailOfUserLogin();
+        Product product = new Product(name,price,detail,seller);
 
+        boolean result = client.addProduct(product);
 
+        if(result){
+            return "OK";
+        }else {
+            return "Server failed";
+        }
+    }
+
+    @Override
+    public String editProduct(int id, String name, double price, String detail) throws RemoteException {
+        String seller = client.getEmailOfUserLogin();
+        Product product = new Product(id,name,price,detail,seller);
+
+        boolean result = client.addProduct(product);
+
+        if(result){
+            return "OK";
+        }else {
+            return "Server failed";
+        }
+    }
+
+    @Override
+    public int getNumOfMessages(String email) throws RemoteException {
+        return 0;
+    }
 
 
 }

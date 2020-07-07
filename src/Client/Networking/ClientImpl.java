@@ -17,6 +17,11 @@ public class ClientImpl implements IClient{
     private IServer server;
 
 
+
+
+    public String emailOfUserLogin;
+
+
     public ClientImpl() throws RemoteException, NotBoundException
     {
         UnicastRemoteObject.exportObject(this, 0);
@@ -25,8 +30,18 @@ public class ClientImpl implements IClient{
     }
 
     @Override
-    public void registerClient(String id) throws RemoteException {
-        server.registerClient(this,id);
+    public void registerClient(String email) throws RemoteException {
+        server.registerClient(this,email);
+    }
+
+    @Override
+    public String getEmailOfUserLogin() throws RemoteException {
+        return emailOfUserLogin;
+    }
+
+    @Override
+    public void setEmailOfUserLogin(String emailOfUserLogin) throws RemoteException {
+        this.emailOfUserLogin = emailOfUserLogin;
     }
 
     @Override
@@ -58,4 +73,18 @@ public class ClientImpl implements IClient{
     public ArrayList<Product> getProductList(String searchText) throws RemoteException {
         return server.getProductList(searchText);
     }
+
+    @Override
+    public boolean addProduct(Product product) throws RemoteException {
+        return server.addProduct(product);
+    }
+
+    @Override
+    public boolean editProduct(Product product) throws RemoteException{
+        return server.editProduct(product);
+    }
+
+
+
+
 }

@@ -36,6 +36,7 @@ public class SearchProductController {
     private SearchProductVM searchProductVM;
     private ViewHandler viewHandler;
 
+
     public void init(SearchProductVM searchProductVM, ViewHandler viewHandler) {
         this.searchProductVM = searchProductVM;
         this.viewHandler = viewHandler;

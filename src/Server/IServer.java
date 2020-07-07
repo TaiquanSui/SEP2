@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface IServer extends Remote {
-    boolean registerClient(IClient client, String name) throws RemoteException;
+    boolean registerClient(IClient client, String email) throws RemoteException;
 
     boolean createNewUser(User user) throws RemoteException;
     void changePassword(String Id, String newPw) throws RemoteException;
@@ -21,4 +21,6 @@ public interface IServer extends Remote {
     ArrayList<Message> getMessages(String clientID) throws RemoteException;
     
     ArrayList<Product> getProductList(String searchText) throws RemoteException;
+    boolean addProduct(Product product) throws RemoteException;
+    boolean editProduct(Product product) throws RemoteException;
 }

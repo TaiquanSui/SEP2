@@ -3,12 +3,10 @@ package Client.View;
 import Client.View.Login.ChangePasswordController;
 import Client.View.Login.CreateUserController;
 import Client.View.Login.LoginController;
-import Client.View.UserService.AddProductController;
-import Client.View.UserService.EditProductController;
-import Client.View.UserService.SearchProductController;
-import Client.View.UserService.SellerOverviewController;
+import Client.View.UserService.*;
 import Client.ViewModel.UserService.SellerOverviewVM;
 import Client.ViewModel.ViewModelFactory;
+import Shared.Model.Product;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -213,7 +211,7 @@ public class ViewHandler {
     }
 
     private Scene editProductScene;
-    public void openEditProductView() {
+    public void openEditProductView(Product product) {
         try {
             // no need to load the same scene more than once. I can just reuse it
             if(editProductScene == null) {
@@ -223,7 +221,7 @@ public class ViewHandler {
                 Parent root = loader.load();
 
                 EditProductController view = loader.getController();
-                view.init(viewModelFactory.getEditProductVM(), this);
+                view.init(viewModelFactory.getEditProductVM(), this, product);
 
                 // storing scene in field variable for future use
                 editProductScene = new Scene(root);
@@ -236,6 +234,28 @@ public class ViewHandler {
     }
 
 
+    private Scene ChatScene;
+    public void openChatView(String email) {
+        try {
+            // no need to load the same scene more than once. I can just reuse it
+            if(ChatScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("UserService/ChatView.fxml"));
+                Parent root = loader.load();
+
+                ChatViewController view = loader.getController();
+                view.init(viewModelFactory.getChatVM(), this, email);
+
+                // storing scene in field variable for future use
+                ChatScene = new Scene(root);
+            }
+            mainStage.setTitle("Chat");
+            mainStage.setScene(ChatScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

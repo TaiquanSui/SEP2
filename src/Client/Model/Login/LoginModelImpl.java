@@ -61,7 +61,6 @@ public class LoginModelImpl implements ILoginModel{
     // get user and check if the password is correct
     private String checkLogin(String email, String password) throws RemoteException{
         User user = client.getUser(email);
-        client.registerClient(user.getId());
 
         if(user == null) {
             return "User not found";
@@ -69,6 +68,9 @@ public class LoginModelImpl implements ILoginModel{
         if(!user.getPassword().equals(password)) {
             return "Incorrect password";
         }
+
+        client.registerClient(user.getId());
+
 
         return "OK";
     }
