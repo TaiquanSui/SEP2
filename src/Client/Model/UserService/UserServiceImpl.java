@@ -60,15 +60,12 @@ public class UserServiceImpl implements IUserServiceModel {
     }
 
     @Override
-    public ArrayList<Product> getSearchResultOfSeller(String searchText) {
-        return null;
+    public ArrayList<Product> getSearchResultOfSeller(String searchText) throws RemoteException {
+        return client.getSearchResultOfSeller(searchText);
     }
 
     @Override
     public ArrayList<Product> getAllProductsOnSale() throws RemoteException {
-        for (Product product : client.getAllProductsOnSale()) {
-            System.out.println(product.getName()+product.getDescription());
-        }
         return client.getAllProductsOnSale();
     }
 

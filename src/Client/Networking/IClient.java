@@ -22,9 +22,11 @@ public interface IClient extends Remote {
     ArrayList<Product> getProductList(String searchText) throws RemoteException;
 
     ArrayList<Product> getAllProductsOnSale() throws RemoteException;
+    ArrayList<Product> getSearchResultOfSeller(String searchText) throws RemoteException;
     boolean addProduct(Product product) throws RemoteException;
     boolean editProduct(Product product) throws RemoteException;
     boolean deleteProduct(String id) throws RemoteException;
+
 
 
 }

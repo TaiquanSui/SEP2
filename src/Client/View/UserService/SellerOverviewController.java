@@ -66,7 +66,13 @@ public class SellerOverviewController {
 
 
     public void getSearchResultOfSeller(ActionEvent actionEvent) throws RemoteException {
-        sellerOverviewVM.getSearchResultOfSeller();
+        ArrayList<Product> searchResult = sellerOverviewVM.getSearchResultOfSeller();
+
+        ObservableList<Product> productList = FXCollections.observableArrayList();
+
+        productList.addAll(searchResult);
+
+        productTableView.setItems(productList);
     }
 
 
@@ -95,7 +101,7 @@ public class SellerOverviewController {
         if("OK".equals(result)){
             sellerOverviewVM.clearFields();
             //open OverviewController window
-            productTableView.refresh();
+            getAllProductsOnSale();
         }else{
             JOptionPane.showMessageDialog(null, result,"Fail", JOptionPane.ERROR_MESSAGE);
         }

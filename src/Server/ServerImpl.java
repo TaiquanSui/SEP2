@@ -151,7 +151,6 @@ public class ServerImpl implements IServer{
                 double price = Double.parseDouble(rs.getString("price"));
                 String description = rs.getString("description");
                 String seller = rs.getString("seller");
-                System.out.println(id+name+price+description+seller);
 
                 Product product = new Product(id, name, price, description, seller);
                 products.add(product);

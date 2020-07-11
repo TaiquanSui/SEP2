@@ -16,7 +16,8 @@ public class ClientImpl implements IClient{
 
     private IServer server;
 
-    public String emailOfUserLogin;
+    private String emailOfUserLogin;
+    private ArrayList<Product> productsOnSale;
 
 
     public ClientImpl() throws RemoteException, NotBoundException
@@ -73,7 +74,22 @@ public class ClientImpl implements IClient{
 
     @Override
     public ArrayList<Product> getAllProductsOnSale() throws RemoteException {
-        return server.getAllProductsOnSale(emailOfUserLogin);
+        productsOnSale = server.getAllProductsOnSale(emailOfUserLogin);
+        return productsOnSale;
+    }
+
+    @Override
+    public ArrayList<Product> getSearchResultOfSeller(String searchText) throws RemoteException {
+
+        ArrayList<Product> searchResult = new ArrayList<Product>();
+
+        for (Product product : productsOnSale) {
+            if (product.getName().contains(searchText)) {
+                searchResult.add(product);
+            }
+        }
+
+        return searchResult;
     }
 
     @Override
