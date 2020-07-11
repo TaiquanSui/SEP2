@@ -4,6 +4,7 @@ import Client.View.ViewHandler;
 import Client.ViewModel.UserService.EditProductVM;
 import Client.ViewModel.UserService.OverviewVM;
 import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
@@ -18,17 +19,13 @@ public class OverviewController {
     public void init(OverviewVM overviewVM, ViewHandler viewHandler) {
         this.overviewVM = overviewVM;
         this.viewHandler = viewHandler;
-
-
     }
 
-
-
-    public void openSearchProductView(ActionEvent actionEvent) throws RemoteException {
+    public void openSearchProductView(MouseEvent mouseEvent) {
         viewHandler.openSearchProductView();
     }
 
-    public void openSellerOverview(ActionEvent actionEvent) throws RemoteException {
+    public void openSellerOverview(MouseEvent mouseEvent){
         viewHandler.openSellerOverviewView();
     }
 

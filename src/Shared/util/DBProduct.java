@@ -15,7 +15,7 @@ public class DBProduct {
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, product.getName());
         pstmt.setDouble(2, product.getPrice());
-        pstmt.setString(3, product.getDetail());
+        pstmt.setString(3, product.getDescription());
         pstmt.setString(4, product.getSeller());
         return pstmt.executeUpdate();
     }
@@ -43,6 +43,18 @@ public class DBProduct {
         pstmt.setString(1, "%"+name+"%");
         return pstmt.executeQuery();
     }
+
+    public ResultSet getAllProductsOnSale(Connection con, String seller) throws Exception{
+        String sql="select * from product where seller = ?";
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        pstmt.setString(1, seller);
+        return pstmt.executeQuery();
+    }
+
+
+
+
+
 
     public ResultSet listInfo(Connection con, Product product,String id,String name) throws Exception//, RemoteException
     {
@@ -72,11 +84,11 @@ public class DBProduct {
     }
 
     public int update(Connection con, Product product) throws Exception{
-        String sql="update product set name=? ,price=? ,detail=? ,seller=? where id=?";
+        String sql="update product set name=? ,price=? ,description=? ,seller=? where id=?";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, product.getName());
         pstmt.setDouble(2, product.getPrice());
-        pstmt.setString(3, product.getDetail());
+        pstmt.setString(3, product.getDescription());
         pstmt.setString(4, product.getSeller());
         pstmt.setInt(5,product.getId());
         return pstmt.executeUpdate();
@@ -87,7 +99,7 @@ public class DBProduct {
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, product.getName());
         pstmt.setDouble(2, product.getPrice());
-        pstmt.setString(3, product.getDetail());
+        pstmt.setString(3, product.getDescription());
         pstmt.setString(4, userId);
         pstmt.setInt(5,product.getId());
         return pstmt.executeUpdate();

@@ -6,28 +6,28 @@ public class Product implements Serializable {
     private int id;
     private String name;
     private double price;
-    private String detail;
+    private String description;
     private String seller;
 
-    public Product(int id, String name,double price,String detail) {
+    public Product(int id, String name,double price,String description) {
         this.id=id;
         this.name=name;
         this.price=price;
-        this.detail=detail;
+        this.description = description;
     }
 
-    public Product(String name,double price,String detail,String seller) {
+    public Product(String name, double price, String description, String seller) {
         this.name=name;
         this.price=price;
         this.seller=seller;
-        this.detail=detail;
+        this.description = description;
     }
 
-    public Product(int id, String name,double price,String detail,String seller) {
+    public Product(int id, String name, double price, String description, String seller) {
         this.id=id;
         this.name=name;
         this.price=price;
-        this.detail=detail;
+        this.description = description;
         this.seller=seller;
     }
 
@@ -49,11 +49,11 @@ public class Product implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
-    public String getDetail() {
-        return detail;
+    public String getDescription() {
+        return description;
     }
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public void setDescription(String description) {
+        this.description = description;
     }
     public String getSeller() {
         return seller;
@@ -61,8 +61,6 @@ public class Product implements Serializable {
     public void setSeller(String seller) {
         this.seller = seller;
     }
-
-
 
 
 }

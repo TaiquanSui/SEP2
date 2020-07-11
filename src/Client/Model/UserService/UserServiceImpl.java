@@ -15,14 +15,14 @@ public class UserServiceImpl implements IUserServiceModel {
     }
 
     @Override
-    public ArrayList<Product> getProductList(String searchText) throws RemoteException {
+    public ArrayList<Product> getSearchResult(String searchText) throws RemoteException {
         return client.getProductList(searchText);
     }
 
     @Override
-    public String addProduct(String name, double price, String detail) throws RemoteException {
+    public String addProduct(String name, double price, String description) throws RemoteException {
         String seller = client.getEmailOfUserLogin();
-        Product product = new Product(name,price,detail,seller);
+        Product product = new Product(name,price,description,seller);
 
         boolean result = client.addProduct(product);
 
@@ -38,13 +38,38 @@ public class UserServiceImpl implements IUserServiceModel {
         String seller = client.getEmailOfUserLogin();
         Product product = new Product(id,name,price,detail,seller);
 
-        boolean result = client.addProduct(product);
+        boolean result = client.editProduct(product);
 
         if(result){
             return "OK";
         }else {
             return "Server failed";
         }
+    }
+
+    @Override
+    public String deleteProduct(String id) throws RemoteException {
+
+        boolean result = client.deleteProduct(id);
+
+        if(result){
+            return "OK";
+        }else {
+            return "Server failed";
+        }
+    }
+
+    @Override
+    public ArrayList<Product> getSearchResultOfSeller(String searchText) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Product> getAllProductsOnSale() throws RemoteException {
+        for (Product product : client.getAllProductsOnSale()) {
+            System.out.println(product.getName()+product.getDescription());
+        }
+        return client.getAllProductsOnSale();
     }
 
     @Override

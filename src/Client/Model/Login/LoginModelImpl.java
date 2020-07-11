@@ -70,7 +70,8 @@ public class LoginModelImpl implements ILoginModel{
         }
 
         client.registerClient(user.getId());
-
+        client.setEmailOfUserLogin(user.getEmail());
+        System.out.println(client.getEmailOfUserLogin());
 
         return "OK";
     }

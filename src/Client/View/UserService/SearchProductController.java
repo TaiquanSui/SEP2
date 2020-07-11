@@ -48,6 +48,11 @@ public class SearchProductController {
         priceColumn.setCellValueFactory(new PropertyValueFactory("price"));
         sellerColumn.setCellValueFactory(new PropertyValueFactory("seller"));
 
+//        idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getId())));
+//        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+//        priceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Double.toString(cellData.getValue().getPrice())));
+//        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSeller()));
+
 
         productTableView.setRowFactory( tv -> {
             TableRow<Product> row = new TableRow<>();
@@ -64,13 +69,12 @@ public class SearchProductController {
 
 
     public void searchProduct(ActionEvent actionEvent) throws RemoteException{
-        ArrayList<Product> productArrayList = searchProductVM.getProductList();
+        ArrayList<Product> productArrayList = searchProductVM.getSearchResult();
 
         ObservableList<Product> productList = FXCollections.observableArrayList();
-        productArrayList.addAll(productArrayList);
+        productList.addAll(productArrayList);
 
         productTableView.setItems(productList);
-
     }
 
 

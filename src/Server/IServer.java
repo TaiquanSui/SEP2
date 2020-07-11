@@ -20,7 +20,10 @@ public interface IServer extends Remote {
     void sendMessage(String msg, String name) throws RemoteException;
     ArrayList<Message> getMessages(String clientID) throws RemoteException;
     
-    ArrayList<Product> getProductList(String searchText) throws RemoteException;
+    ArrayList<Product> getSearchResult(String searchText) throws RemoteException;
+
+    ArrayList<Product> getAllProductsOnSale(String email) throws RemoteException;
     boolean addProduct(Product product) throws RemoteException;
     boolean editProduct(Product product) throws RemoteException;
+    boolean deleteProduct(String id) throws RemoteException;
 }

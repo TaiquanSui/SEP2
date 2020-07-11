@@ -4,7 +4,6 @@ import Client.View.Login.ChangePasswordController;
 import Client.View.Login.CreateUserController;
 import Client.View.Login.LoginController;
 import Client.View.UserService.*;
-import Client.ViewModel.UserService.SellerOverviewVM;
 import Client.ViewModel.ViewModelFactory;
 import Shared.Model.Product;
 import javafx.fxml.FXMLLoader;
@@ -126,8 +125,8 @@ public class ViewHandler {
                 loader.setLocation(getClass().getResource("UserService/Overview.fxml"));
                 Parent root = loader.load();
 
-                SearchProductController view = loader.getController();
-                view.init(viewModelFactory.getSearchProductVM(), this);
+                OverviewController view = loader.getController();
+                view.init(viewModelFactory.getOverviewVM(), this);
 
                 // storing scene in field variable for future use
                 overviewScene = new Scene(root);
@@ -164,6 +163,7 @@ public class ViewHandler {
         }
     }
 
+
     private Scene sellerOverviewScene;
     public void openSellerOverviewView() {
         try {
@@ -187,9 +187,13 @@ public class ViewHandler {
         }
     }
 
+    private Stage addProductStage;
     private Scene addProductScene;
     public void openAddProductView() {
         try {
+            if(addProductStage == null) {
+                addProductStage = new Stage();
+            }
             // no need to load the same scene more than once. I can just reuse it
             if(addProductScene == null) {
                 FXMLLoader loader = new FXMLLoader();
@@ -203,16 +207,31 @@ public class ViewHandler {
                 // storing scene in field variable for future use
                 addProductScene = new Scene(root);
             }
-            mainStage.setTitle("Add Product");
-            mainStage.setScene(addProductScene);
+            addProductStage.setTitle("Add Product");
+            addProductStage.setScene(addProductScene);
+            addProductStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void closeAddProductView(){
+        addProductStage.close();
+    }
+
+
+
+
+
+
+    private Stage editProductStage;
     private Scene editProductScene;
     public void openEditProductView(Product product) {
         try {
+            if(editProductStage == null) {
+                editProductStage = new Stage();
+            }
+
             // no need to load the same scene more than once. I can just reuse it
             if(editProductScene == null) {
                 FXMLLoader loader = new FXMLLoader();
@@ -226,19 +245,30 @@ public class ViewHandler {
                 // storing scene in field variable for future use
                 editProductScene = new Scene(root);
             }
-            mainStage.setTitle("Edit Product");
-            mainStage.setScene(editProductScene);
+            editProductStage.setTitle("Edit Product");
+            editProductStage.setScene(editProductScene);
+            editProductStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public void closeEditProductView(){
+        editProductStage.close();
+    }
 
-    private Scene ChatScene;
+
+
+    private Stage chatStage;
+    private Scene chatScene;
     public void openChatView(String email) {
         try {
+            if(chatStage == null) {
+                chatStage = new Stage();
+            }
+
             // no need to load the same scene more than once. I can just reuse it
-            if(ChatScene == null) {
+            if(chatScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
                 loader.setLocation(getClass().getResource("UserService/ChatView.fxml"));
@@ -248,13 +278,18 @@ public class ViewHandler {
                 view.init(viewModelFactory.getChatVM(), this, email);
 
                 // storing scene in field variable for future use
-                ChatScene = new Scene(root);
+                chatScene = new Scene(root);
             }
-            mainStage.setTitle("Chat");
-            mainStage.setScene(ChatScene);
+            chatStage.setTitle("Chat");
+            chatStage.setScene(chatScene);
+            chatStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void closeChatView(){
+        chatStage.close();
     }
 
 

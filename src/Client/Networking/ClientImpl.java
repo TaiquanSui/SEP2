@@ -16,9 +16,6 @@ public class ClientImpl implements IClient{
 
     private IServer server;
 
-
-
-
     public String emailOfUserLogin;
 
 
@@ -71,7 +68,12 @@ public class ClientImpl implements IClient{
 
     @Override
     public ArrayList<Product> getProductList(String searchText) throws RemoteException {
-        return server.getProductList(searchText);
+        return server.getSearchResult(searchText);
+    }
+
+    @Override
+    public ArrayList<Product> getAllProductsOnSale() throws RemoteException {
+        return server.getAllProductsOnSale(emailOfUserLogin);
     }
 
     @Override
@@ -84,7 +86,10 @@ public class ClientImpl implements IClient{
         return server.editProduct(product);
     }
 
-
+    @Override
+    public boolean deleteProduct(String id) throws RemoteException{
+        return server.deleteProduct(id);
+    }
 
 
 }

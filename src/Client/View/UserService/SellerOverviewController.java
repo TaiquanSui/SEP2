@@ -27,20 +27,17 @@ public class SellerOverviewController {
     @FXML
     private TableView<Product> productTableView;
     @FXML
-    private TableColumn<Product, String> idColumn;
-    @FXML
     private TableColumn<Product, String> nameColumn;
     @FXML
     private TableColumn<Product, String> priceColumn;
-    @FXML
-    private TableColumn<Product, String> sellerColumn;
+
 
     private SellerOverviewVM sellerOverviewVM;
     private ViewHandler viewHandler;
 
 
 
-    public void init(SellerOverviewVM sellerOverviewVM, ViewHandler viewHandler) {
+    public void init(SellerOverviewVM sellerOverviewVM, ViewHandler viewHandler) throws RemoteException {
         this.sellerOverviewVM = sellerOverviewVM;
         this.viewHandler = viewHandler;
 
@@ -49,12 +46,16 @@ public class SellerOverviewController {
         nameColumn.setCellValueFactory(new PropertyValueFactory("name"));
         priceColumn.setCellValueFactory(new PropertyValueFactory("price"));
 
+        getAllProductsOnSale();
+
+        /**
+         *   open edit product view when double click product row
+         */
         productTableView.setRowFactory( tv -> {
             TableRow<Product> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Product rowData = row.getItem();
-
                     viewHandler.openEditProductView(rowData);
                 }
             });
@@ -64,14 +65,8 @@ public class SellerOverviewController {
 
 
 
-    public void getSellerProductList(ActionEvent actionEvent) throws RemoteException {
-        ArrayList<Product> productArrayList = sellerOverviewVM.getSellerProductList();
-
-        ObservableList<Product> productList = FXCollections.observableArrayList();
-        productArrayList.addAll(productArrayList);
-
-        productTableView.setItems(productList);
-
+    public void getSearchResultOfSeller(ActionEvent actionEvent) throws RemoteException {
+        sellerOverviewVM.getSearchResultOfSeller();
     }
 
 
@@ -85,7 +80,43 @@ public class SellerOverviewController {
         viewHandler.openEditProductView(productSelected);
     }
 
+    public void deleteProduct(ActionEvent actionEvent) throws RemoteException {
+        Product productSelected = productTableView.getSelectionModel().selectedItemProperty().getValue();
 
+        String result = "";
+
+        try{
+            String id = String.valueOf(productSelected.getId());
+            result = sellerOverviewVM.deleteProduct(id);
+        }catch (Exception e){
+            result = "client exception";
+        }
+
+        if("OK".equals(result)){
+            sellerOverviewVM.clearFields();
+            //open OverviewController window
+            productTableView.refresh();
+        }else{
+            JOptionPane.showMessageDialog(null, result,"Fail", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+
+
+
+    public void getAllProductsOnSale() throws RemoteException {
+        /**
+         *   get the list of products on sale
+         */
+        ArrayList<Product> productArrayList = sellerOverviewVM.getAllProductsOnSale();
+
+        ObservableList<Product> productList = FXCollections.observableArrayList();
+
+        productList.addAll(productArrayList);
+
+        productTableView.setItems(productList);
+    }
 
 
     public void logout(ActionEvent actionEvent) throws RemoteException {

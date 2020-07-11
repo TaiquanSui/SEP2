@@ -1,7 +1,6 @@
 package Client.View.UserService;
 
 import Client.View.ViewHandler;
-import Client.ViewModel.UserService.AddProductVM;
 import Client.ViewModel.UserService.EditProductVM;
 import Shared.Model.Product;
 import javafx.event.ActionEvent;
@@ -37,7 +36,7 @@ public class EditProductController {
 
         name.setText(product.getName());
         price.setText(String.valueOf(product.getPrice()));
-        detail.setText(product.getDetail());
+        detail.setText(product.getDescription());
     }
 
 
@@ -47,21 +46,13 @@ public class EditProductController {
         if("OK".equals(result)){
             editProductVM.clearFields();
             //open OverviewController window
+            viewHandler.closeEditProductView();
             JOptionPane.showMessageDialog(null, "Edit successfully",null, JOptionPane.INFORMATION_MESSAGE);
 
         }else{
             JOptionPane.showMessageDialog(null, result,"Edit failed", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
-
-
-
-
-
-
-
 
 
 

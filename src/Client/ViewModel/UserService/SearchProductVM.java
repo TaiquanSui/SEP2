@@ -2,8 +2,6 @@ package Client.ViewModel.UserService;
 
 import Client.Model.UserService.IUserServiceModel;
 import Shared.Model.Product;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -21,8 +19,8 @@ public class SearchProductVM {
     }
 
 
-    public ArrayList<Product> getProductList() throws RemoteException {
-        return iUserServiceModel.getProductList(searchProperty.getValue());
+    public ArrayList<Product> getSearchResult() throws RemoteException {
+        return iUserServiceModel.getSearchResult(searchProperty.getValue());
     }
 
     public StringProperty searchProperty() {

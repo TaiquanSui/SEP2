@@ -45,7 +45,6 @@ public class LoginController {
         if("OK".equals(result)){
             loginViewModel.clearFields();
             //open OverviewController window
-            JOptionPane.showMessageDialog(null, "Login successfully",null, JOptionPane.INFORMATION_MESSAGE);
             viewHandler.openOverview();
 
         }else{

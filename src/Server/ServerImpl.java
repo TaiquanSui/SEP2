@@ -108,7 +108,7 @@ public class ServerImpl implements IServer{
     }
 
     @Override
-    public ArrayList<Product> getProductList(String searchText) throws RemoteException {
+    public ArrayList<Product> getSearchResult(String searchText) throws RemoteException {
         Connection con =null;
 
         try {
@@ -120,10 +120,11 @@ public class ServerImpl implements IServer{
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 double price = Double.parseDouble(rs.getString("price"));
-                String detail = rs.getString("detail");
+                String description = rs.getString("description");
                 String seller = rs.getString("seller");
 
-                Product product = new Product(id, name, price, detail, seller);
+
+                Product product = new Product(id, name, price, description, seller);
                 products.add(product);
             }
 
@@ -135,6 +136,44 @@ public class ServerImpl implements IServer{
         return null;
     }
 
+    @Override
+    public ArrayList<Product> getAllProductsOnSale(String email) throws RemoteException {
+        Connection con =null;
+
+        try {
+            con= dbUtil.getCon();
+            ResultSet rs=dbProduct.getAllProductsOnSale(con,email);
+            ArrayList<Product> products = new ArrayList<Product>();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                double price = Double.parseDouble(rs.getString("price"));
+                String description = rs.getString("description");
+                String seller = rs.getString("seller");
+                System.out.println(id+name+price+description+seller);
+
+                Product product = new Product(id, name, price, description, seller);
+                products.add(product);
+            }
+
+            return products;
+
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }finally {
+            try {
+                dbUtil.closeCon(con);
+            }catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+
+        System.out.println("null");
+        return null;
+    }
 
 
     @Override
@@ -156,7 +195,6 @@ public class ServerImpl implements IServer{
         } catch (Exception e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
-            return false;
         }finally {
             try {
                 dbUtil.closeCon(con);
@@ -165,6 +203,7 @@ public class ServerImpl implements IServer{
                 e1.printStackTrace();
             }
         }
+        return false;
     }
 
     @Override
@@ -186,8 +225,6 @@ public class ServerImpl implements IServer{
         } catch (Exception e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
-            return false;
-
         }finally {
             try {
                 dbUtil.closeCon(con);
@@ -196,6 +233,38 @@ public class ServerImpl implements IServer{
                 e1.printStackTrace();
             }
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean deleteProduct(String id) throws RemoteException {
+        Connection con =null;
+
+        try {
+            con=dbUtil.getCon();
+
+            //int currentProduct=remoteProduct.add(con, product);
+            int currentProduct=dbProduct.delete(con, id);
+
+            if(currentProduct==1) {
+                return true;
+            }else {
+                return false;
+            }
+
+        } catch (Exception e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }finally {
+            try {
+                dbUtil.closeCon(con);
+            }catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+        return false;
     }
 
 

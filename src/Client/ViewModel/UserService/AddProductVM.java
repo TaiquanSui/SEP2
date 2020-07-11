@@ -39,7 +39,6 @@ public class AddProductVM {
             double priceInDouble = Double.parseDouble(price.getValue());
             String result = userServiceModel.addProduct(name.getValue(), priceInDouble,detail.getValue());
             return result;
-
         }catch(Exception e){
             String result = "Please enter the price correctly";
             return result;

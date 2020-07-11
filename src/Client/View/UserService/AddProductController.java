@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+
 import javax.swing.*;
 import java.rmi.RemoteException;
 
@@ -30,7 +31,6 @@ public class AddProductController {
         name.textProperty().bindBidirectional(addProductVM.nameProperty());
         price.textProperty().bindBidirectional(addProductVM.priceProperty());
         detail.textProperty().bindBidirectional(addProductVM.detailProperty());
-
     }
 
 
@@ -41,7 +41,7 @@ public class AddProductController {
             addProductVM.clearFields();
             //open OverviewController window
             JOptionPane.showMessageDialog(null, "Add successfully",null, JOptionPane.INFORMATION_MESSAGE);
-            viewHandler.openSearchProductView();
+            viewHandler.closeAddProductView();
 
         }else{
             JOptionPane.showMessageDialog(null, result,"Add failed", JOptionPane.ERROR_MESSAGE);
