@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
@@ -48,18 +49,15 @@ public class SearchProductController {
         priceColumn.setCellValueFactory(new PropertyValueFactory("price"));
         sellerColumn.setCellValueFactory(new PropertyValueFactory("seller"));
 
-//        idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Integer.toString(cellData.getValue().getId())));
-//        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-//        priceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(Double.toString(cellData.getValue().getPrice())));
-//        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSeller()));
-
 
         productTableView.setRowFactory( tv -> {
             TableRow<Product> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Product rowData = row.getItem();
-                    System.out.println(rowData);
+                    String chatterEmail = rowData.getSeller();
+                    System.out.println(chatterEmail);
+                    viewHandler.openChatView(chatterEmail);
                 }
             });
             return row ;
@@ -75,6 +73,11 @@ public class SearchProductController {
         productList.addAll(productArrayList);
 
         productTableView.setItems(productList);
+    }
+
+
+    public void clickBack(MouseEvent mouseEvent) {
+        viewHandler.openOverview();
     }
 
 

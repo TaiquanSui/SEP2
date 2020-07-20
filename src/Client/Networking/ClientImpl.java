@@ -1,6 +1,8 @@
 package Client.Networking;
 
+import Client.View.UserService.ChatViewController;
 import Server.IServer;
+import Shared.Model.Message;
 import Shared.Model.Product;
 import Shared.Model.User;
 
@@ -19,6 +21,8 @@ public class ClientImpl implements IClient{
     private String emailOfUserLogin;
     private ArrayList<Product> productsOnSale;
 
+    private ChatViewController chatViewController;
+
 
     public ClientImpl() throws RemoteException, NotBoundException
     {
@@ -33,6 +37,11 @@ public class ClientImpl implements IClient{
     }
 
     @Override
+    public void logout() throws RemoteException {
+        server.logout(emailOfUserLogin);
+    }
+
+    @Override
     public String getEmailOfUserLogin() throws RemoteException {
         return emailOfUserLogin;
     }
@@ -43,13 +52,28 @@ public class ClientImpl implements IClient{
     }
 
     @Override
-    public void sendMessage(String msg, String email) throws RemoteException {
-
+    public void setChatView(ChatViewController chatViewController) throws RemoteException {
+        this.chatViewController = chatViewController;
     }
 
     @Override
-    public void receiveMessage(String msg, String email) throws RemoteException {
+    public String getUserStatus(String email) throws RemoteException {
+        return server.getUserStatus(email);
+    }
 
+    @Override
+    public boolean sendMessageToOnlineUser(Message message) throws RemoteException {
+        return server.sendMessageToOnlineUser(message);
+    }
+
+    @Override
+    public boolean sendMessageToOfflineUser(Message message) throws RemoteException {
+        return server.sendMessageToOfflineUser(message);
+    }
+
+    @Override
+    public void receiveMessage(Message message) throws RemoteException {
+        chatViewController.receiveMessage(message);
     }
 
     @Override

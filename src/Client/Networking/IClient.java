@@ -1,5 +1,7 @@
 package Client.Networking;
 
+import Client.View.UserService.ChatViewController;
+import Shared.Model.Message;
 import Shared.Model.Product;
 import Shared.Model.User;
 
@@ -9,11 +11,15 @@ import java.util.ArrayList;
 
 public interface IClient extends Remote {
     void registerClient(String email) throws RemoteException;
+    void logout() throws RemoteException;
     String getEmailOfUserLogin() throws RemoteException;
     void setEmailOfUserLogin(String emailOfUserLogin) throws RemoteException;
 
-    void sendMessage(String msg, String email) throws RemoteException;
-    void receiveMessage(String msg, String email) throws RemoteException;
+    void setChatView(ChatViewController chatViewController) throws RemoteException;
+    String getUserStatus(String email) throws RemoteException;
+    boolean sendMessageToOnlineUser(Message message) throws RemoteException;
+    boolean sendMessageToOfflineUser(Message message) throws RemoteException;
+    void receiveMessage(Message message) throws RemoteException;
 
     boolean createNewUser(User user) throws RemoteException;
     User getUser(String email) throws RemoteException;

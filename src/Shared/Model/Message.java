@@ -6,16 +6,16 @@ public class Message implements Serializable {
 
     private String text;
     private String date;
-    private String senderID;
-    private String receiverID;
+    private String senderEmail;
+    private String receiverEmail;
     private boolean read;
 
-    public Message(String text, String date, String senderID, String receiverID, boolean read)
+    public Message(String text, String date, String senderEmail, String receiverEmail, boolean read)
     {
         this.text = text;
         this.date = date;
-        this.senderID = senderID;
-        this.receiverID = receiverID;
+        this.senderEmail = senderEmail;
+        this.receiverEmail = receiverEmail;
         this.read = read;
     }
 
@@ -35,20 +35,20 @@ public class Message implements Serializable {
         this.date = date;
     }
 
-    public String getSenderID() {
-        return senderID;
+    public String getSenderEmail() {
+        return senderEmail;
     }
 
-    public void setSenderID(String senderID) {
-        this.senderID = senderID;
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
     }
 
-    public String getReceiverID() {
-        return receiverID;
+    public String getReceiverEmail() {
+        return receiverEmail;
     }
 
-    public void setReceiverID(String receiverID) {
-        this.receiverID = receiverID;
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
     }
 
     public boolean isRead() {

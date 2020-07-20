@@ -22,8 +22,8 @@
             </Menu>
          </menus>
       </MenuBar>
-      <TextField fx:id="searchText" layoutX="106.0" layoutY="146.0" prefHeight="35.0" prefWidth="228.0" />
-      <Button layoutX="369.0" layoutY="146.0" mnemonicParsing="false" onAction="#getSearchResultOfSeller" prefHeight="35.0" prefWidth="81.0" text="Search">
+      <TextField fx:id="searchText" layoutX="126.0" layoutY="146.0" prefHeight="35.0" prefWidth="228.0" />
+      <Button layoutX="363.0" layoutY="146.0" mnemonicParsing="false" onAction="#getSearchResultOfSeller" prefHeight="35.0" prefWidth="71.0" text="Search">
          <font>
             <Font size="15.0" />
          </font>
@@ -49,9 +49,14 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Label layoutX="131.0" layoutY="62.0" prefHeight="59.0" prefWidth="313.0" text="Product Mangement">
+      <Label layoutX="130.0" layoutY="74.0" prefHeight="59.0" prefWidth="313.0" text="Product Mangement">
          <font>
             <Font size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="32.0" layoutY="62.0" onMouseClicked="#clickBack" text="←Back">
+         <font>
+            <Font size="18.0" />
          </font>
       </Label>
    </children>

@@ -69,7 +69,7 @@ public class LoginModelImpl implements ILoginModel{
             return "Incorrect password";
         }
 
-        client.registerClient(user.getId());
+        client.registerClient(user.getEmail());
         client.setEmailOfUserLogin(user.getEmail());
         System.out.println(client.getEmailOfUserLogin());
 

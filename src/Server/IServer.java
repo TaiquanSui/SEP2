@@ -17,7 +17,9 @@ public interface IServer extends Remote {
     User getUser(String CustomerId) throws RemoteException;
     void logout(String name) throws RemoteException;
 
-    void sendMessage(String msg, String name) throws RemoteException;
+    String getUserStatus(String email) throws RemoteException;
+    boolean sendMessageToOnlineUser(Message message) throws RemoteException;
+    boolean sendMessageToOfflineUser(Message message) throws RemoteException;
     ArrayList<Message> getMessages(String clientID) throws RemoteException;
     
     ArrayList<Product> getSearchResult(String searchText) throws RemoteException;

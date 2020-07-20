@@ -6,6 +6,8 @@ import Client.ViewModel.Login.CreateUserVM;
 import Client.ViewModel.Login.LoginVM;
 import Client.ViewModel.UserService.*;
 
+import java.rmi.RemoteException;
+
 public class ViewModelFactory {
     private final ModelFactory modelFactory;
     private LoginVM loginVM;
@@ -106,12 +108,17 @@ public class ViewModelFactory {
         return editProductVM;
     }
 
+
+
+
+
     public ChatVM getChatVM() {
         if(chatVM == null) {
-            chatVM = new ChatVM(modelFactory.getUserServiceModel());
+            chatVM = new ChatVM(modelFactory.getUserServiceModel(),modelFactory.getStatus());
         }
         return chatVM;
     }
+
 
 
 

@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
@@ -77,7 +78,7 @@ public class SellerOverviewController {
 
 
     public void addProduct(ActionEvent actionEvent) throws RemoteException {
-        viewHandler.openAddProductView();
+        viewHandler.openAddProductView(this);
     }
 
 
@@ -107,6 +108,16 @@ public class SellerOverviewController {
         }
 
     }
+
+
+    public void clickBack(MouseEvent mouseEvent) {
+        viewHandler.openOverview();
+    }
+
+
+
+
+
 
 
 

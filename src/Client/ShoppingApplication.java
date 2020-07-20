@@ -8,10 +8,10 @@ import Client.ViewModel.ViewModelFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.rmi.NotBoundException;
 
 public class ShoppingApplication extends Application {
+
+    private IClient client;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -19,7 +19,7 @@ public class ShoppingApplication extends Application {
         // If I had a client, I would create it here too, and hand over to the ModelFactory
 
         try {
-            IClient client = new ClientImpl();
+            client = new ClientImpl();
             ModelFactory mf = new ModelFactory(client);
             ViewModelFactory vmf = new ViewModelFactory(mf);
             ViewHandler vh = new ViewHandler(vmf);
@@ -34,6 +34,10 @@ public class ShoppingApplication extends Application {
     @Override
     public void stop() throws Exception {
         // This method is called, when the application is shut down
+        client.logout();
+        System.exit(0);
         System.out.println("Shutting down.");
     }
+
+
 }

@@ -6,12 +6,14 @@ import Client.View.Login.LoginController;
 import Client.View.UserService.*;
 import Client.ViewModel.ViewModelFactory;
 import Shared.Model.Product;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class ViewHandler {
 
@@ -187,9 +189,12 @@ public class ViewHandler {
         }
     }
 
+
+
+
     private Stage addProductStage;
     private Scene addProductScene;
-    public void openAddProductView() {
+    public void openAddProductView(SellerOverviewController sc) {
         try {
             if(addProductStage == null) {
                 addProductStage = new Stage();
@@ -202,10 +207,11 @@ public class ViewHandler {
                 Parent root = loader.load();
 
                 AddProductController view = loader.getController();
-                view.init(viewModelFactory.getAddProductVM(), this);
+                view.init(viewModelFactory.getAddProductVM(), sc, this);
 
                 // storing scene in field variable for future use
                 addProductScene = new Scene(root);
+
             }
             addProductStage.setTitle("Add Product");
             addProductStage.setScene(addProductScene);
@@ -261,32 +267,42 @@ public class ViewHandler {
 
     private Stage chatStage;
     private Scene chatScene;
-    public void openChatView(String email) {
+    public void openChatView(String chatterEmail) {
         try {
             if(chatStage == null) {
                 chatStage = new Stage();
             }
 
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(getClass().getResource("UserService/ChatView.fxml"));
+            Parent root = loader.load();
+            ChatViewController view = loader.getController();
+
             // no need to load the same scene more than once. I can just reuse it
             if(chatScene == null) {
-                FXMLLoader loader = new FXMLLoader();
-
-                loader.setLocation(getClass().getResource("UserService/ChatView.fxml"));
-                Parent root = loader.load();
-
-                ChatViewController view = loader.getController();
-                view.init(viewModelFactory.getChatVM(), this, email);
+                view.init(viewModelFactory.getChatVM(), this);
+                view.addChatter(chatterEmail);
+                chatStage.setOnCloseRequest(evt -> view.endStatusThread());
 
                 // storing scene in field variable for future use
                 chatScene = new Scene(root);
+            }else {
+                view.addChatter(chatterEmail);
+                chatStage.setOnCloseRequest(evt -> view.endStatusThread());
             }
+
             chatStage.setTitle("Chat");
             chatStage.setScene(chatScene);
-            chatStage.show();
+
+            if(!chatStage.isShowing()) {
+                chatStage.show();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
     public void closeChatView(){
         chatStage.close();

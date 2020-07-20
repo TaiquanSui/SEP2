@@ -22,11 +22,13 @@ public class AddProductController {
     private TextArea detail;
 
     private AddProductVM addProductVM;
+    private SellerOverviewController sellerOverviewController;
     private ViewHandler viewHandler;
 
-    public void init(AddProductVM addProductVM, ViewHandler viewHandler) {
+    public void init(AddProductVM addProductVM, SellerOverviewController sellerOverviewController, ViewHandler viewHandler) {
         this.addProductVM = addProductVM;
         this.viewHandler = viewHandler;
+        this.sellerOverviewController = sellerOverviewController;
 
         name.textProperty().bindBidirectional(addProductVM.nameProperty());
         price.textProperty().bindBidirectional(addProductVM.priceProperty());
@@ -42,6 +44,7 @@ public class AddProductController {
             //open OverviewController window
             JOptionPane.showMessageDialog(null, "Add successfully",null, JOptionPane.INFORMATION_MESSAGE);
             viewHandler.closeAddProductView();
+            sellerOverviewController.getAllProductsOnSale();
 
         }else{
             JOptionPane.showMessageDialog(null, result,"Add failed", JOptionPane.ERROR_MESSAGE);

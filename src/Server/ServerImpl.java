@@ -4,11 +4,11 @@ import Client.Networking.IClient;
 import Shared.Model.Message;
 import Shared.Model.Product;
 import Shared.Model.User;
+import Shared.util.DBMessage;
 import Shared.util.DBProduct;
 import Shared.util.DBUser;
 import Shared.util.DBUtil;
 
-import javax.swing.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -23,6 +23,7 @@ public class ServerImpl implements IServer{
     private DBUtil dbUtil;
     private DBUser dbUser;
     private DBProduct dbProduct;
+    private DBMessage dbMessage;
 
 
     public ServerImpl() throws RemoteException {
@@ -38,13 +39,26 @@ public class ServerImpl implements IServer{
     @Override
     public boolean registerClient(IClient userClient, String email) throws RemoteException {
         for (ClientContainer client : clients) {
-            if(client.id.equals(email)) return false;
+            if(client.email.equals(email)) return false;
         }
 
         clients.add(new ClientContainer(email, userClient));
 
         return true;
     }
+
+
+    @Override
+    public void logout(String email) {
+        IClient toRemove = null;
+        for (ClientContainer client : clients) {
+            if(client.email.equals(email)) {
+                toRemove = client.client;
+            }
+        }
+        clients.remove(toRemove);
+    }
+
 
     @Override
     public boolean createNewUser(User user) throws RemoteException {
@@ -90,17 +104,49 @@ public class ServerImpl implements IServer{
 
 
     @Override
-    public void sendMessage(String msg, String id) throws RemoteException {
-        for (ClientContainer client : clients) {
-            if(client.id.equals(id)) continue;
+    public boolean sendMessageToOnlineUser(Message message) throws RemoteException {
 
-            try {
-                client.client.receiveMessage(msg, id);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+        for (ClientContainer client : clients) {
+            if(client.email.equals(message.getReceiverEmail())) {
+                try {
+                    client.client.receiveMessage(message);
+                    return true;
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
         }
+        return false;
     }
+
+    @Override
+    public boolean sendMessageToOfflineUser(Message message) throws RemoteException{
+            Connection con =null;
+
+            try {
+                con= dbUtil.getCon();
+                int resultToSaveMessage=dbMessage.saveMessage(con,message);
+
+                if(resultToSaveMessage==1) {
+                    return true;
+                }else {
+                    return false;
+                }
+
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }finally {
+                try {
+                    dbUtil.closeCon(con);
+                }catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+        return false;
+
+    }
+
 
     @Override
     public ArrayList<Message> getMessages(String clientID) throws RemoteException {
@@ -170,7 +216,6 @@ public class ServerImpl implements IServer{
             }
         }
 
-        System.out.println("null");
         return null;
     }
 
@@ -212,7 +257,6 @@ public class ServerImpl implements IServer{
         try {
             con=dbUtil.getCon();
 
-            //int currentProduct=remoteProduct.add(con, product);
             int currentProduct=dbProduct.update(con, product);
 
             if(currentProduct==1) {
@@ -267,30 +311,25 @@ public class ServerImpl implements IServer{
     }
 
 
+
+
     @Override
-    public void logout(String id) {
-        IClient toRemove = null;
+    public String getUserStatus(String email) throws RemoteException {
         for (ClientContainer client : clients) {
-            if(client.id.equals(id)) {
-                toRemove = client.client;
+            if(client.email.equals(email)) {
+                return "online";
             }
         }
-        clients.remove(toRemove);
+        return "offline";
     }
 
 
-
-
-
-
-
-
     private class ClientContainer {
-        String id;
+        String email;
         IClient client;
 
-        ClientContainer(String id, IClient client) {
-            this.id = id;
+        ClientContainer(String email, IClient client) {
+            this.email = email;
             this.client = client;
         }
     }
