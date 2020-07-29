@@ -2,6 +2,7 @@ package Client.View.Login;
 
 import Client.View.ViewHandler;
 import Client.ViewModel.Login.LoginVM;
+import Shared.Model.UserType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -16,11 +17,6 @@ public class LoginController {
     private TextField emailTextField;
     @FXML
     private TextField passwordTextField;
-    @FXML
-    private RadioButton UserRadioButton;
-    @FXML
-    private RadioButton AdministratorRadioButton;
-
 
     private LoginVM loginViewModel;
     private ViewHandler viewHandler;
@@ -29,12 +25,8 @@ public class LoginController {
         this.loginViewModel = lvm;
         this.viewHandler = viewHandler;
 
-        UserRadioButton.setSelected(true);
-
         emailTextField.textProperty().bindBidirectional(lvm.userNameProperty());
         passwordTextField.textProperty().bindBidirectional(lvm.passwordProperty());
-        UserRadioButton.selectedProperty().bindBidirectional(lvm.isUserProperty());
-        AdministratorRadioButton.selectedProperty().bindBidirectional(lvm.isAdministratorProperty());
     }
 
 
@@ -42,10 +34,15 @@ public class LoginController {
     public void onLoginButton(ActionEvent actionEvent) throws RemoteException {
         String result = loginViewModel.validateLogin();
 
-        if("OK".equals(result)){
+        if(UserType.Customer.toString().equals(result)){
             loginViewModel.clearFields();
             //open OverviewController window
             viewHandler.openOverview();
+
+        }else if(UserType.Administrator.toString().equals(result)){
+            loginViewModel.clearFields();
+            //open OverviewController window
+            viewHandler.openAdminOverview();
 
         }else{
             // Login failed

@@ -1,6 +1,7 @@
 package Client.ViewModel.Login;
 
 import Client.Model.Login.ILoginModel;
+import Shared.Model.UserType;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,11 +29,14 @@ public class CreateUserVM {
         email.setValue("");
         password.setValue("");
         passwordAgain.setValue("");
+        isCustomer.setValue(false);
+        isAdministrator.setValue(false);
     }
 
     // method called by the controller, when the user wants to create a new user
     // relevant data is retrieved from the properties, and forwarded to the model
     public String attemptCreateUser() throws RemoteException {
+
         if(email.getValue()==null || email.getValue().length()==0){
             String result = "Please enter the email";
             return result;
@@ -42,10 +46,19 @@ public class CreateUserVM {
         }else if(passwordAgain.getValue()==null || passwordAgain.getValue().length()==0){
             String result = "Please enter the confirm password";
             return result;
-        }else {
-            String result = model.createUser(email.getValue(), password.getValue(), passwordAgain.getValue());
+        }else if(isCustomer.getValue()==false && isAdministrator.getValue()==false){
+            String result = "Please select the user type";
             return result;
+        }else {
+            if(isCustomer.getValue()==true){
+                String result = model.createUser(email.getValue(), password.getValue(), passwordAgain.getValue(), UserType.Customer);
+                return result;
+            }else {
+                String result = model.createUser(email.getValue(), password.getValue(), passwordAgain.getValue(), UserType.Administrator);
+                return result;
+            }
         }
+
     }
 
     // methods to get access to the properties, so the controller can bind to them

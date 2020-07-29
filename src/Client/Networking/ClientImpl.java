@@ -1,9 +1,10 @@
 package Client.Networking;
 
-import Client.View.UserService.ChatViewController;
+import Client.View.CustomerService.ChatViewController;
 import Server.IServer;
 import Shared.Model.Message;
 import Shared.Model.Product;
+import Shared.Model.Session;
 import Shared.Model.User;
 
 import java.rmi.NotBoundException;
@@ -39,6 +40,7 @@ public class ClientImpl implements IClient{
     @Override
     public void logout() throws RemoteException {
         server.logout(emailOfUserLogin);
+        System.out.println("client log out");
     }
 
     @Override
@@ -62,18 +64,23 @@ public class ClientImpl implements IClient{
     }
 
     @Override
-    public boolean sendMessageToOnlineUser(Message message) throws RemoteException {
-        return server.sendMessageToOnlineUser(message);
-    }
-
-    @Override
-    public boolean sendMessageToOfflineUser(Message message) throws RemoteException {
-        return server.sendMessageToOfflineUser(message);
+    public boolean sendMessage(Message message) throws RemoteException {
+        return server.sendMessage(message);
     }
 
     @Override
     public void receiveMessage(Message message) throws RemoteException {
         chatViewController.receiveMessage(message);
+    }
+
+    @Override
+    public int getNumOfMessages() throws RemoteException {
+        return server.getNumOfMessages(emailOfUserLogin);
+    }
+
+    @Override
+    public ArrayList<Session> getOfflineMessages() throws RemoteException {
+        return server.getOfflineMessages(emailOfUserLogin);
     }
 
     @Override
@@ -129,6 +136,21 @@ public class ClientImpl implements IClient{
     @Override
     public boolean deleteProduct(String id) throws RemoteException{
         return server.deleteProduct(id);
+    }
+
+    @Override
+    public ArrayList<User> getAllCustomers() throws RemoteException {
+        return server.getAllCustomers();
+    }
+
+    @Override
+    public ArrayList<User> getSearchResultOfCustomers(String searchText) throws RemoteException {
+        return server.getSearchResultOfCustomers(searchText);
+    }
+
+    @Override
+    public String deleteUser(String id) throws RemoteException {
+        return server.deleteUser(id);
     }
 
 

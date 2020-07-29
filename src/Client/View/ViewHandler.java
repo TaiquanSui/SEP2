@@ -1,12 +1,12 @@
 package Client.View;
 
+import Client.View.AdminService.AdminOverviewController;
 import Client.View.Login.ChangePasswordController;
 import Client.View.Login.CreateUserController;
 import Client.View.Login.LoginController;
-import Client.View.UserService.*;
+import Client.View.CustomerService.*;
 import Client.ViewModel.ViewModelFactory;
 import Shared.Model.Product;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,13 +26,86 @@ public class ViewHandler {
         mainStage = new Stage();
     }
 
-    // I could do this in the constructor. It's just personal preference to make the constructor only create things
-    // and not start all kinds of stuff.
+
     public void start() {
         // opening first view
         openLoginView();
+        initChatView();
         mainStage.show();
     }
+
+
+
+
+
+    private Stage chatStage;
+    private Scene chatScene;
+    private ChatViewController chatViewController;
+
+
+    public void initChatView(){
+        try{
+            if(chatStage == null) {
+                chatStage = new Stage();
+            }
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("CustomerService/ChatView.fxml"));
+            Parent root = loader.load();
+            chatViewController = loader.getController();
+            chatViewController.init(viewModelFactory.getChatVM(), this);
+            chatScene = new Scene(root);
+
+            chatStage.setTitle("Chat");
+            chatStage.setScene(chatScene);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void openChatView(String chatterEmail) {
+
+        if(chatterEmail != null  && !chatViewController.checkChatter(chatterEmail)){
+            chatViewController.addChatter(chatterEmail);
+        }
+        chatStage.setOnCloseRequest(evt -> chatViewController.endStatusThread());
+
+        if(!chatStage.isShowing()) {
+            chatStage.show();
+        }
+
+    }
+
+    public void openChatViewForOfflineMessages(){
+        try {
+            chatViewController.getOfflineMessages();
+
+            chatStage.setOnCloseRequest(evt -> chatViewController.endStatusThread());
+
+            if(!chatStage.isShowing()) {
+                chatStage.show();
+            }
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void closeChatView(){
+        chatStage.close();
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     private Scene loginScene;
@@ -117,6 +190,47 @@ public class ViewHandler {
     }
 
 
+
+
+
+
+    private Scene adminScene;
+    public void openAdminOverview() {
+        try {
+            // no need to load the same scene more than once. I can just reuse it
+            if(adminScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("AdminService/AdminOverview.fxml"));
+                Parent root = loader.load();
+
+                AdminOverviewController view = loader.getController();
+                view.init(viewModelFactory.getAdminOverviewVM(), this);
+
+                // storing scene in field variable for future use
+                adminScene = new Scene(root);
+            }
+            mainStage.setTitle("Admin");
+            mainStage.setScene(adminScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private Scene overviewScene;
     public void openOverview() {
         try {
@@ -124,7 +238,7 @@ public class ViewHandler {
             if(overviewScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
-                loader.setLocation(getClass().getResource("UserService/Overview.fxml"));
+                loader.setLocation(getClass().getResource("CustomerService/Overview.fxml"));
                 Parent root = loader.load();
 
                 OverviewController view = loader.getController();
@@ -149,7 +263,7 @@ public class ViewHandler {
             if(searchProductScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
-                loader.setLocation(getClass().getResource("UserService/SearchProduct.fxml"));
+                loader.setLocation(getClass().getResource("CustomerService/SearchProduct.fxml"));
                 Parent root = loader.load();
 
                 SearchProductController view = loader.getController();
@@ -165,6 +279,42 @@ public class ViewHandler {
         }
     }
 
+    private Stage productDetailStage;
+    private Scene productDetailScene;
+    public void openProductDetailView(Product product) {
+        try {
+            if(productDetailStage == null) {
+                productDetailStage = new Stage();
+            }
+            // no need to load the same scene more than once. I can just reuse it
+            if(productDetailScene == null) {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("CustomerService/ProductDetail.fxml"));
+                Parent root = loader.load();
+
+                ProductDetailController view = loader.getController();
+                view.init(this, product);
+
+                // storing scene in field variable for future use
+                productDetailScene = new Scene(root);
+
+            }
+            productDetailStage.setTitle("Add Product");
+            productDetailStage.setScene(productDetailScene);
+            productDetailStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeProductDetailView(){
+        productDetailStage.close();
+    }
+
+
+
+
 
     private Scene sellerOverviewScene;
     public void openSellerOverviewView() {
@@ -173,7 +323,7 @@ public class ViewHandler {
             if(sellerOverviewScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
-                loader.setLocation(getClass().getResource("UserService/SellerOverview.fxml"));
+                loader.setLocation(getClass().getResource("CustomerService/SellerOverview.fxml"));
                 Parent root = loader.load();
 
                 SellerOverviewController view = loader.getController();
@@ -203,7 +353,7 @@ public class ViewHandler {
             if(addProductScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
-                loader.setLocation(getClass().getResource("UserService/AddProduct.fxml"));
+                loader.setLocation(getClass().getResource("CustomerService/AddProduct.fxml"));
                 Parent root = loader.load();
 
                 AddProductController view = loader.getController();
@@ -242,7 +392,7 @@ public class ViewHandler {
             if(editProductScene == null) {
                 FXMLLoader loader = new FXMLLoader();
 
-                loader.setLocation(getClass().getResource("UserService/EditProduct.fxml"));
+                loader.setLocation(getClass().getResource("CustomerService/EditProduct.fxml"));
                 Parent root = loader.load();
 
                 EditProductController view = loader.getController();
@@ -263,50 +413,6 @@ public class ViewHandler {
         editProductStage.close();
     }
 
-
-
-    private Stage chatStage;
-    private Scene chatScene;
-    public void openChatView(String chatterEmail) {
-        try {
-            if(chatStage == null) {
-                chatStage = new Stage();
-            }
-
-            FXMLLoader loader = new FXMLLoader();
-
-            loader.setLocation(getClass().getResource("UserService/ChatView.fxml"));
-            Parent root = loader.load();
-            ChatViewController view = loader.getController();
-
-            // no need to load the same scene more than once. I can just reuse it
-            if(chatScene == null) {
-                view.init(viewModelFactory.getChatVM(), this);
-                view.addChatter(chatterEmail);
-                chatStage.setOnCloseRequest(evt -> view.endStatusThread());
-
-                // storing scene in field variable for future use
-                chatScene = new Scene(root);
-            }else {
-                view.addChatter(chatterEmail);
-                chatStage.setOnCloseRequest(evt -> view.endStatusThread());
-            }
-
-            chatStage.setTitle("Chat");
-            chatStage.setScene(chatScene);
-
-            if(!chatStage.isShowing()) {
-                chatStage.show();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void closeChatView(){
-        chatStage.close();
-    }
 
 
 

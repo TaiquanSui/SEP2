@@ -1,6 +1,7 @@
 package Shared.util;
 
 import Shared.Model.User;
+import Shared.Model.UserType;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,18 +11,19 @@ public class DBUser {
 
 
     public int add(Connection con, User user)throws Exception {
-        String sql="insert into user value(null,?,?,null)";
+        String sql="insert into user value(null,?,?,?)";
 
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, user.getEmail());
         pstmt.setString(2, user.getPassword());
+        pstmt.setString(3, user.getType().toString());
         return pstmt.executeUpdate();
     }
 
 
-    public User login(Connection con,String email)throws Exception{
+    public User getUser(Connection con, String email)throws Exception{
         User resultUser=null;
-        //try {
+
         String sql="select * from user where email=?";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, email);
@@ -31,12 +33,34 @@ public class DBUser {
             resultUser.setId(rs.getString("id"));
             resultUser.setEmail(rs.getString("email"));
             resultUser.setPassword(rs.getString("password"));
+            if(rs.getString("type").equals(UserType.Administrator.toString())){
+                resultUser.setType(UserType.Administrator);
+            }else if(rs.getString("type").equals(UserType.Customer.toString())){
+                resultUser.setType(UserType.Customer);
+            }
+
         }
-        //}catch(Exception e) {
-        //	e.printStackTrace();
-        //}
+
         return resultUser;
     }
+
+    public ResultSet getAllCustomers(Connection con) throws Exception//, RemoteException
+    {
+        String sql="select * from user where type = ?";
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        pstmt.setString(1, UserType.Customer.toString());
+
+        return pstmt.executeQuery();
+    }
+
+    public ResultSet getSearchResultOfCustomers(Connection con, String searchText) throws Exception//, RemoteException
+    {
+        String sql="select * from user where email like ?";
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        pstmt.setString(1, "%"+searchText+"%");
+        return pstmt.executeQuery();
+    }
+
 
     public ResultSet listById(Connection con, User user,String id) throws Exception//, RemoteException
     {

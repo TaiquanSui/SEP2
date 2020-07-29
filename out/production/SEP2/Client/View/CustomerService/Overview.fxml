@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.View.CustomerService.OverviewController">
+   <children>
+      <ImageView fx:id="searchImg" fitHeight="120.0" fitWidth="120.0" layoutX="94.0" layoutY="190.0" onMouseClicked="#openSearchProductView" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/searchOV.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="sellImg" fitHeight="120.0" fitWidth="135.0" layoutX="341.0" layoutY="190.0" onMouseClicked="#openSellerOverview" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/sell.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="UserImg" fitHeight="130.0" fitWidth="130.0" layoutX="584.0" layoutY="190.0" onMouseClicked="#openChatViewForOfflineMessages" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/user.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="45.0" layoutY="81.0" text="Welcome to shopping application :">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="87.0" layoutY="336.0" onMouseClicked="#openSearchProductView" prefHeight="33.0" prefWidth="135.0" text="Search Product">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="307.0" layoutY="340.0" onContextMenuRequested="#openSellerOverview" text="Product Management">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="619.0" layoutY="340.0" text="Chat">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="800.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Account">
+            <items>
+              <MenuItem mnemonicParsing="false" text="logout" />
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label fx:id="numOfMessage" layoutX="675.0" layoutY="202.0" prefHeight="33.0" prefWidth="33.0" text="99" textFill="#b020d3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

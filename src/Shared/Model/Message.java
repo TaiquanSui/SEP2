@@ -8,15 +8,14 @@ public class Message implements Serializable {
     private String date;
     private String senderEmail;
     private String receiverEmail;
-    private boolean read;
 
-    public Message(String text, String date, String senderEmail, String receiverEmail, boolean read)
+
+    public Message(String text, String date, String senderEmail, String receiverEmail)
     {
         this.text = text;
         this.date = date;
         this.senderEmail = senderEmail;
         this.receiverEmail = receiverEmail;
-        this.read = read;
     }
 
     public String getText() {
@@ -49,13 +48,5 @@ public class Message implements Serializable {
 
     public void setReceiverEmail(String receiverEmail) {
         this.receiverEmail = receiverEmail;
-    }
-
-    public boolean isRead() {
-        return read;
-    }
-
-    public void setRead(boolean read) {
-        this.read = read;
     }
 }

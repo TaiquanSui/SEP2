@@ -23,6 +23,8 @@ public class ViewModelFactory {
     private EditProductVM editProductVM;
     private ChatVM chatVM;
 
+    private AdminOverviewVM adminOverviewVM;
+
 
     public ViewModelFactory(ModelFactory mf) {
         this.modelFactory = mf;
@@ -120,6 +122,12 @@ public class ViewModelFactory {
     }
 
 
+    public AdminOverviewVM getAdminOverviewVM() {
+        if(adminOverviewVM == null) {
+            adminOverviewVM = new AdminOverviewVM(modelFactory.getUserServiceModel());
+        }
+        return adminOverviewVM;
+    }
 
 
 

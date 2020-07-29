@@ -1,12 +1,12 @@
 package Client.Model.UserService;
 
 import Client.Networking.IClient;
-import Client.View.UserService.ChatViewController;
+import Client.View.CustomerService.ChatViewController;
 import Shared.Model.Message;
 import Shared.Model.Product;
+import Shared.Model.Session;
+import Shared.Model.User;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -79,14 +79,10 @@ public class UserServiceImpl implements IUserServiceModel {
     }
 
     @Override
-    public boolean sendMessageToOnlineUser(Message message) throws RemoteException {
-        return client.sendMessageToOnlineUser(message);
+    public boolean sendMessage(Message message) throws RemoteException {
+        return client.sendMessage(message);
     }
 
-    @Override
-    public boolean sendMessageToOfflineUser(Message message) throws RemoteException {
-        return client.sendMessageToOfflineUser(message);
-    }
 
     @Override
     public ArrayList<Product> getAllProductsOnSale() throws RemoteException {
@@ -94,61 +90,29 @@ public class UserServiceImpl implements IUserServiceModel {
     }
 
     @Override
-    public int getNumOfMessages(String email) throws RemoteException {
-        return 0;
+    public int getNumOfMessages() throws RemoteException {
+        return client.getNumOfMessages();
     }
 
-
-
-
-
-
-
-
-
-    private class State implements Runnable{
-
-        private PropertyChangeSupport support = new PropertyChangeSupport(this);
-        private String email;
-
-        public State(String email){
-            this.email = email;
-        }
-
-        public void addListener(String name, PropertyChangeListener listener){
-            support.addPropertyChangeListener(name, listener);
-        };
-
-        @Override
-        public void run() {
-            while (true){
-                try {
-                    String previousState = "";
-                    String state = client.getUserStatus(email);
-                    Thread.sleep(1000);
-                    support.firePropertyChange("state",previousState,state);
-                } catch (RemoteException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
+    @Override
+    public ArrayList<Session> getOfflineMessages() throws RemoteException {
+        return client.getOfflineMessages();
     }
 
+    @Override
+    public ArrayList<User> getAllCustomers() throws RemoteException {
+        return client.getAllCustomers();
+    }
 
+    @Override
+    public ArrayList<User> getSearchResultOfCustomers(String searchText) throws RemoteException {
+        return client.getSearchResultOfCustomers(searchText);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public String deleteUser(String id) throws RemoteException {
+        return client.deleteUser(id);
+    }
 
 
 }

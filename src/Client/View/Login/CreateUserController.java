@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
@@ -35,7 +36,6 @@ public class CreateUserController {
         this.createUserVM = createUserVM;
         this.viewHandler = viewHandler;
 
-        isUser.setSelected(true);
 
         // setting up bidirectional bindings, so data can flow automatically between controller and view model
         emailTextField.textProperty().bindBidirectional(createUserVM.emailProperty());
@@ -43,6 +43,10 @@ public class CreateUserController {
         passwordAgainTextField.textProperty().bindBidirectional(createUserVM.passwordAgainProperty());
         isUser.selectedProperty().bindBidirectional(createUserVM.isCustomerProperty());
         isAdministrator.selectedProperty().bindBidirectional(createUserVM.isAdministratorProperty());
+
+        ToggleGroup tg = new ToggleGroup();
+        isUser.setToggleGroup(tg);
+        isAdministrator.setToggleGroup(tg);
     }
 
 

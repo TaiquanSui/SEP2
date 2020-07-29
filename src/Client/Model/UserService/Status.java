@@ -35,17 +35,20 @@ public class Status implements Runnable {
         run = false;
     }
 
+    public boolean getThreadState(){
+        return run;
+    }
 
 
     @Override
     public void run() {
         while (run){
             try {
-                System.out.println(email);
+                //System.out.println(email);
                 String status = client.getUserStatus(email);
-                System.out.println(status);
-                Thread.sleep(2000);
+                //System.out.println(status);
                 support.firePropertyChange("status","",status);
+                Thread.sleep(2000);
             } catch (RemoteException | InterruptedException e) {
                 e.printStackTrace();
             }

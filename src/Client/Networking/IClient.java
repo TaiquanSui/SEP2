@@ -1,8 +1,9 @@
 package Client.Networking;
 
-import Client.View.UserService.ChatViewController;
+import Client.View.CustomerService.ChatViewController;
 import Shared.Model.Message;
 import Shared.Model.Product;
+import Shared.Model.Session;
 import Shared.Model.User;
 
 import java.rmi.Remote;
@@ -17,9 +18,10 @@ public interface IClient extends Remote {
 
     void setChatView(ChatViewController chatViewController) throws RemoteException;
     String getUserStatus(String email) throws RemoteException;
-    boolean sendMessageToOnlineUser(Message message) throws RemoteException;
-    boolean sendMessageToOfflineUser(Message message) throws RemoteException;
+    boolean sendMessage(Message message) throws RemoteException;
     void receiveMessage(Message message) throws RemoteException;
+    int getNumOfMessages() throws RemoteException;
+    ArrayList<Session> getOfflineMessages() throws RemoteException;
 
     boolean createNewUser(User user) throws RemoteException;
     User getUser(String email) throws RemoteException;
@@ -33,6 +35,9 @@ public interface IClient extends Remote {
     boolean editProduct(Product product) throws RemoteException;
     boolean deleteProduct(String id) throws RemoteException;
 
+    ArrayList<User> getAllCustomers() throws RemoteException;
+    ArrayList<User> getSearchResultOfCustomers(String searchText) throws RemoteException;
+    String deleteUser(String id) throws RemoteException;
 
 
 }

@@ -2,6 +2,7 @@ package Client.Model.Login;
 
 import Client.Networking.IClient;
 import Shared.Model.User;
+import Shared.Model.UserType;
 
 import java.rmi.RemoteException;
 
@@ -22,11 +23,11 @@ public class LoginModelImpl implements ILoginModel{
     }
 
     @Override
-    public String createUser(String email, String pw, String pwAgain) throws RemoteException {
-        String result = attemptCreateUser(email, pw, pwAgain);
+    public String createUser(String email, String pw, String pwAgain, UserType userType) throws RemoteException {
+        String result = attemptCreateUser(email, pw, pwAgain, userType);
 
         if("OK".equals(result)) {
-            boolean createAccount = client.createNewUser(new User(email, pw));
+            boolean createAccount = client.createNewUser(new User(email, pw, userType));
             if(!createAccount){
                 result = "server failed";
             }
@@ -73,14 +74,16 @@ public class LoginModelImpl implements ILoginModel{
         client.setEmailOfUserLogin(user.getEmail());
         System.out.println(client.getEmailOfUserLogin());
 
-        return "OK";
+        return user.getType().toString();
     }
 
 
     // Check if the user already exists and validate password
-    private String attemptCreateUser(String email, String pw, String pwAgain) throws RemoteException {
-        if(client.getUser(email) != null) {
-            return "Username already exists";
+    private String attemptCreateUser(String email, String pw, String pwAgain, UserType userType) throws RemoteException {
+        User user = client.getUser(email);
+
+        if(user != null) {
+            return "email already used";
         }
 
         // checking the passwords

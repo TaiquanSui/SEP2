@@ -9,43 +9,40 @@ import java.sql.ResultSet;
 
 public class DBMessage {
 
-
     public int saveMessage(Connection con, Message message)throws Exception {
-        String sql="insert into user value(?,?,?,?,?)";
+        String sql="insert into message value(null,?,?,?,?)";
 
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, message.getText());
         pstmt.setString(2, message.getDate());
         pstmt.setString(3, message.getSenderEmail());
         pstmt.setString(4, message.getReceiverEmail());
-        pstmt.setBoolean(5,message.isRead() );
 
         return pstmt.executeUpdate();
     }
 
-
-    public User login(Connection con,String email)throws Exception{
-        User resultUser=null;
-        //try {
-        String sql="select * from user where email=?";
+    public ResultSet getNumOfMessages(Connection con, String email) throws Exception{
+        String sql = "select count(*) as row_count from message where receiverEmail = ?";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, email);
-        ResultSet rs=pstmt.executeQuery();
-        if(rs.next()) {
-            resultUser=new User();
-            resultUser.setId(rs.getString("id"));
-            resultUser.setEmail(rs.getString("email"));
-            resultUser.setPassword(rs.getString("password"));
-        }
-        //}catch(Exception e) {
-        //	e.printStackTrace();
-        //}
-        return resultUser;
+
+        return pstmt.executeQuery();
     }
 
-    public ResultSet listById(Connection con, User user,String id) throws Exception//, RemoteException
+    public ResultSet getMessages(Connection con, String email) throws Exception
     {
-        String sql="select * from user where id=?";
+        String sql="select * from message where receiverEmail = ?";
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        pstmt.setString(1, email);
+        return pstmt.executeQuery();
+    }
+
+
+
+
+    public ResultSet listById(Connection con, User user,String id) throws Exception
+    {
+        String sql="select * from message where id=?";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, id);
 
@@ -54,35 +51,12 @@ public class DBMessage {
     }
 
     public int delete(Connection con, String id) throws Exception{
-        String sql="delete from user where id=?";
+        String sql="delete from message where id=?";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1,id);
         return pstmt.executeUpdate();
     }
 
-    public ResultSet getProductList(Connection con, String name) throws Exception//, RemoteException
-    {
-//		StringBuffer sb=new StringBuffer("select * from product");
-////		PreparedStatement pstmt=con.prepareStatement(sql);
-////		pstmt.setString(1, product.getSeller());
-//		//pstmt.setString(2, user.getEmail());
-//
-//		if(StringUtil.isNotEmpty(product.getName())) {
-//			sb.append(" and name like '%"+product.getName()+"%'");
-//		}
-////		if(product.getPrice() !=0) {
-////			sb.append(" where price like '%"+product.getPrice()+"%'");
-////		}
-////		if(StringUtil.isNotEmpty(product.getDetail())) {
-////			sb.append(" where detail like '%"+product.getDetail()+"%'");
-////		}
-//		PreparedStatement pstmt=con.prepareStatement(sb.toString().replaceFirst("and", "where"));
-//		return pstmt.executeQuery();
-        String sql="select * from product where name like ?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, "%"+name+"%");
-        return pstmt.executeQuery();
-    }
 
 
 }

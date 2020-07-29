@@ -7,12 +7,15 @@ public class User implements Serializable {
     private String id;
     private String email;
     private String password;
+    private UserType userType;
+
 
     public User(){}
 
-    public User(String email, String password) {
+    public User(String email, String password, UserType userType) {
         this.email = email;
         this.password = password;
+        this.userType = userType;
     }
 
     public String getId() {
@@ -37,5 +40,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserType getType() {
+        return userType;
+    }
+
+    public void setType(UserType userType) {
+        this.userType = userType;
     }
 }
