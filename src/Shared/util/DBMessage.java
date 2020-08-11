@@ -31,30 +31,17 @@ public class DBMessage {
 
     public ResultSet getMessages(Connection con, String email) throws Exception
     {
-        String sql="select * from message where receiverEmail = ?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, email);
-        return pstmt.executeQuery();
-    }
+        String getSql = "select * from message where receiverEmail = ?";
+        PreparedStatement pstmt1=con.prepareStatement(getSql);
+        pstmt1.setString(1, email);
+        ResultSet resultSet =  pstmt1.executeQuery();
 
+        String deleteSql = "delete from message where receiverEmail = ?";
+        PreparedStatement pstmt2 = con.prepareStatement(deleteSql);
+        pstmt2.setString(1, email);
+        pstmt2.executeUpdate();
 
-
-
-    public ResultSet listById(Connection con, User user,String id) throws Exception
-    {
-        String sql="select * from message where id=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, id);
-
-        return pstmt.executeQuery();
-
-    }
-
-    public int delete(Connection con, String id) throws Exception{
-        String sql="delete from message where id=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1,id);
-        return pstmt.executeUpdate();
+        return resultSet;
     }
 
 

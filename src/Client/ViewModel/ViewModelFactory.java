@@ -17,6 +17,7 @@ public class ViewModelFactory {
     private OverviewVM overviewVM;
 
     private SearchProductVM searchProductVM;
+    private ProductDetailVM productDetailVM;
 
     private SellerOverviewVM sellerOverviewVM;
     private AddProductVM addProductVM;
@@ -82,6 +83,13 @@ public class ViewModelFactory {
             searchProductVM = new SearchProductVM(modelFactory.getUserServiceModel());
         }
         return searchProductVM;
+    }
+
+    public ProductDetailVM getProductDetailVM() {
+        if(productDetailVM == null) {
+            productDetailVM = new ProductDetailVM(modelFactory.getUserServiceModel());
+        }
+        return productDetailVM;
     }
 
 

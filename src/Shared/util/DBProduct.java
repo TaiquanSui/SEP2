@@ -22,22 +22,6 @@ public class DBProduct {
 
     public ResultSet getProductList(Connection con, String name) throws Exception//, RemoteException
     {
-//		StringBuffer sb=new StringBuffer("select * from product");
-////		PreparedStatement pstmt=con.prepareStatement(sql);
-////		pstmt.setString(1, product.getSeller());
-//		//pstmt.setString(2, user.getEmail());
-//
-//		if(StringUtil.isNotEmpty(product.getName())) {
-//			sb.append(" and name like '%"+product.getName()+"%'");
-//		}
-////		if(product.getPrice() !=0) {
-////			sb.append(" where price like '%"+product.getPrice()+"%'");
-////		}
-////		if(StringUtil.isNotEmpty(product.getDetail())) {
-////			sb.append(" where detail like '%"+product.getDetail()+"%'");
-////		}
-//		PreparedStatement pstmt=con.prepareStatement(sb.toString().replaceFirst("and", "where"));
-//		return pstmt.executeQuery();
         String sql="select * from product where name like ?";
         PreparedStatement pstmt=con.prepareStatement(sql);
         pstmt.setString(1, "%"+name+"%");
@@ -51,30 +35,6 @@ public class DBProduct {
         return pstmt.executeQuery();
     }
 
-
-
-
-
-
-    public ResultSet listInfo(Connection con, Product product,String id,String name) throws Exception//, RemoteException
-    {
-        String sql="select * from product where seller=? and name like ?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, id);
-        pstmt.setString(2, "%"+name+"%");
-        return pstmt.executeQuery();
-
-    }
-
-    public ResultSet listById(Connection con, Product product,String id) throws Exception//, RemoteException
-    {
-        String sql="select * from product where seller=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, id);
-
-        return pstmt.executeQuery();
-
-    }
 
     public int delete(Connection con, String id) throws Exception{
         String sql="delete from product where id=?";

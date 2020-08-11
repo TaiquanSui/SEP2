@@ -42,9 +42,12 @@ public class LoginModelImpl implements ILoginModel{
 
         if("OK".equals(result)) {
             // updating the password
-            client.changePassword(email,newPw);
-        }
+            boolean serverResult = client.changePassword(newPw);
 
+            if(!serverResult){
+                return "server failed, try again please";
+            }
+        }
         return result;
     }
 

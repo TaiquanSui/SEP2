@@ -5,7 +5,6 @@ import Client.ViewModel.Login.LoginVM;
 import Shared.Model.UserType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;

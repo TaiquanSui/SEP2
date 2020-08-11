@@ -64,6 +64,9 @@ public class ChatVM {
 
 
     public void startStatusThread(String email){
+
+        System.out.println(String.valueOf(statusThread.isAlive()));
+
         if(statusThread.isAlive()){
             status.setEmail(email);
         }else {

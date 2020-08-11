@@ -43,6 +43,9 @@ public class ServerImpl implements IServer{
 
         clients.add(new ClientContainer(email, userClient));
 
+        for(ClientContainer client : clients){
+            System.out.println(client.email);
+        }
         return true;
     }
 
@@ -86,8 +89,30 @@ public class ServerImpl implements IServer{
     }
 
     @Override
-    public void changePassword(String Id, String newPw) throws RemoteException {
+    public boolean changePassword(String email, String newPW) throws RemoteException {
 
+        Connection con = null;
+
+        try {
+            con = dbUtil.getCon();
+
+            int resultToChangePassword = dbUser.changePassword(con, email, newPW);
+
+            if(resultToChangePassword==1) {
+                return true;
+            }
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }finally {
+            try {
+                dbUtil.closeCon(con);
+            }catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -95,8 +120,8 @@ public class ServerImpl implements IServer{
         Connection con =null;
 
         try {
-            con= dbUtil.getCon();
-            User currentUser=dbUser.getUser(con, email);
+            con = dbUtil.getCon();
+            User currentUser= dbUser.getUser(con, email);
 
             return currentUser;
         } catch (Exception e) {
@@ -221,8 +246,6 @@ public class ServerImpl implements IServer{
 
                 senderExists = false;
             }
-
-            Message sm = sessions.get(0).getMessages().get(0);
 
             return sessions;
 

@@ -16,6 +16,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -62,22 +63,32 @@ public class ChatViewController {
 
         chatVM.addChatViewToClient(this);
 
+
         userListView.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> {
-                if(newValue!=null) {
-                    for (Session session : sessions) {
-                        if (session.getSenderEmail().equals(newValue)) {
-                            chatMessages.setAll(session.getMessages());
+                Platform.runLater(() -> {
+                    if(newValue!=null) {
+                        for (Session session : sessions) {
+                            if (session.getSenderEmail().equals(newValue)) {
+                                chatMessages.setAll(session.getMessages());
+                            }
                         }
+                        Platform.runLater(() -> {
+                            chatVM.startStatusThread(newValue);
+                        });
+                        userChattingWith.textProperty().setValue(newValue);
                     }
-
-                    chatVM.startStatusThread(newValue);
-                    userChattingWith.textProperty().setValue(newValue);
-                }
+                });
             }
         );
     }
 
+
+    public boolean haveChatter(){
+        boolean haveChatter = sessions.size() != 0;
+
+        return haveChatter;
+    }
 
 
     public boolean checkChatter(String emailOfChatter){
@@ -92,15 +103,13 @@ public class ChatViewController {
 
 
     public void addChatter(String emailOfChatter) {
-        userChattingWith.textProperty().setValue(emailOfChatter);
-
         Session session = new Session(emailOfChatter);
         sessions.add(session);
         chatters.add(emailOfChatter);
 
         userListView.getSelectionModel().select(emailOfChatter);
-        System.out.println(emailOfChatter);
     }
+
 
     public void endStatusThread(){
         chatVM.endStatusThread();
@@ -112,30 +121,46 @@ public class ChatViewController {
 
         Platform.runLater(() -> {
             viewHandler.openChatView(message.getSenderEmail());
-        });
 
-        for (Session session : sessions) {
-            if (message.getSenderEmail().equals(session.getSenderEmail())) {
-                session.addMessage(message);
+            if(checkChatter(message.getSenderEmail())){
+
+                for (Session session : sessions) {
+                    if (message.getSenderEmail().equals(session.getSenderEmail())) {
+                        session.addMessage(message);
+                    }
+                }
+
+                userListView.getSelectionModel().select(message.getSenderEmail());
+            }else {
+                addChatter(message.getSenderEmail());
+                chatMessages.add(message);
             }
-        }
 
-        Platform.runLater(() -> {
-            chatMessages.add(message);
         });
+
+
     }
 
 
-    public void getOfflineMessages() throws RemoteException{
+
+    public boolean getOfflineMessages() throws RemoteException{
+
         ArrayList<Session> offlineMessages = chatVM.getOfflineMessages();
 
-        sessions.addAll(offlineMessages);
+        if(offlineMessages.size() == 0){
+            return false;
+        }else {
+            sessions.addAll(offlineMessages);
 
-        for(Session session : offlineMessages){
-            chatters.add(session.getSenderEmail());
+            for(Session session : offlineMessages){
+                if(!checkChatter(session.getSenderEmail())) {
+                    chatters.add(session.getSenderEmail());
+                }
+            }
+
+            userListView.getSelectionModel().select(0);
+            return true;
         }
-
-        userListView.getSelectionModel().select(0);
     }
 
 

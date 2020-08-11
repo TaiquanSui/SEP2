@@ -1,5 +1,6 @@
 package Shared.util;
 
+import Shared.Model.Product;
 import Shared.Model.User;
 import Shared.Model.UserType;
 
@@ -19,6 +20,17 @@ public class DBUser {
         pstmt.setString(3, user.getType().toString());
         return pstmt.executeUpdate();
     }
+
+
+    public int changePassword(Connection con, String email, String password) throws Exception{
+        String sql="update user set password = ? where email=?";
+        PreparedStatement pstmt=con.prepareStatement(sql);
+        pstmt.setString(1, password);
+        pstmt.setString(2, email);
+
+        return pstmt.executeUpdate();
+    }
+
 
 
     public User getUser(Connection con, String email)throws Exception{
@@ -44,6 +56,8 @@ public class DBUser {
         return resultUser;
     }
 
+
+
     public ResultSet getAllCustomers(Connection con) throws Exception//, RemoteException
     {
         String sql="select * from user where type = ?";
@@ -62,51 +76,4 @@ public class DBUser {
     }
 
 
-    public ResultSet listById(Connection con, User user,String id) throws Exception//, RemoteException
-    {
-        String sql="select * from user where id=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, id);
-
-        return pstmt.executeQuery();
-
-    }
-
-    public int delete(Connection con, String id) throws Exception{
-        String sql="delete from user where id=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1,id);
-        return pstmt.executeUpdate();
-    }
-
-    public ResultSet list(Connection con, User user) throws Exception//, RemoteException
-    {
-        String sql="select * from user";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        return pstmt.executeQuery();
-    }
-
-    public static ResultSet userInfo(Connection con, User user) throws Exception//, RemoteException
-    {
-        String sql="select id from user where email=666";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        return pstmt.executeQuery();
-    }
-
-    public static ResultSet getID(Connection con, User user) throws Exception//, RemoteException
-    {
-        String sql="select id from user where email=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, user.getEmail());
-        return pstmt.executeQuery();
-    }
-
-    public int update(Connection con,  User user) throws Exception{
-        String sql="update user set id=? ,email=? ,password=?";
-        PreparedStatement pstmt=con.prepareStatement(sql);
-        pstmt.setString(1, user.getId());
-        pstmt.setString(2, user.getEmail());
-        pstmt.setString(3, user.getPassword());
-        return pstmt.executeUpdate();
-    }
 }

@@ -1,8 +1,11 @@
 package Client.View.CustomerService;
 
 import Client.View.ViewHandler;
+import Client.ViewModel.UserService.ProductDetailVM;
 import Client.ViewModel.UserService.SellerOverviewVM;
 import Shared.Model.Product;
+import Shared.Model.Session;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,19 +26,30 @@ public class ProductDetailController {
     @FXML
     private Label description;
 
+    private ProductDetailVM productDetailVM;
     private ViewHandler viewHandler;
     private Product product;
 
 
-
-    public void init(ViewHandler viewHandler, Product product) throws RemoteException {
+    public void init(ViewHandler viewHandler, ProductDetailVM productDetailVM) throws RemoteException {
         this.viewHandler = viewHandler;
-        this.product = product;
+        this.productDetailVM = productDetailVM;
 
-        name.textProperty().setValue(product.getName());
-        price.textProperty().setValue(String.valueOf(product.getPrice()));
-        seller.textProperty().setValue(product.getSeller());
-        description.textProperty().setValue(product.getDescription());
+        name.textProperty().bindBidirectional(productDetailVM.nameProperty());
+        price.textProperty().bindBidirectional(productDetailVM.priceProperty());
+        seller.textProperty().bindBidirectional(productDetailVM.sellerProperty());
+        description.textProperty().bindBidirectional(productDetailVM.descriptionProperty());
+
+    }
+
+
+    public void setValues(Product product) {
+        this.product = product;
+        productDetailVM.setValues(product);
+    }
+
+    public void clearFields(){
+        productDetailVM.clearFields();
     }
 
 
@@ -44,16 +58,13 @@ public class ProductDetailController {
     }
 
     public void onBuyButton(ActionEvent actionEvent) throws RemoteException {
-        JOptionPane.showMessageDialog(null, "You will redirect to the payment page" ,"Add failed", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "You will redirect to the payment page" ,"Buy", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
     public void onCancelButton(ActionEvent actionEvent) throws RemoteException {
         viewHandler.closeProductDetailView();
     }
-
-
-
 
 
 

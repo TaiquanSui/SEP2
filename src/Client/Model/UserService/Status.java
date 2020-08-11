@@ -42,11 +42,12 @@ public class Status implements Runnable {
 
     @Override
     public void run() {
+
+
+
         while (run){
             try {
-                //System.out.println(email);
                 String status = client.getUserStatus(email);
-                //System.out.println(status);
                 support.firePropertyChange("status","",status);
                 Thread.sleep(2000);
             } catch (RemoteException | InterruptedException e) {
@@ -54,7 +55,6 @@ public class Status implements Runnable {
             }
         }
     }
-
 
 
 

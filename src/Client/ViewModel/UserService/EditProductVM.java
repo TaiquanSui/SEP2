@@ -1,6 +1,7 @@
 package Client.ViewModel.UserService;
 
 import Client.Model.UserService.IUserServiceModel;
+import Shared.Model.Product;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -11,7 +12,7 @@ public class EditProductVM {
     private final IUserServiceModel userServiceModel;
     private StringProperty name = new SimpleStringProperty();
     private StringProperty price = new SimpleStringProperty();
-    private StringProperty detail = new SimpleStringProperty();
+    private StringProperty description = new SimpleStringProperty();
 
     public EditProductVM(IUserServiceModel userServiceModel) {
         this.userServiceModel = userServiceModel;
@@ -29,14 +30,14 @@ public class EditProductVM {
         }else if(price.getValue()==null){
             String result = "Please enter the price";
             return result;
-        }else if(detail.getValue()==null) {
+        }else if(description.getValue()==null) {
             String result = "Please enter the detail";
             return result;
         }
 
         try{
             double priceInDouble = Double.parseDouble(price.getValue());
-            String result = userServiceModel.editProduct(id, name.getValue(), priceInDouble,detail.getValue());
+            String result = userServiceModel.editProduct(id, name.getValue(), priceInDouble, description.getValue());
             return result;
 
         }catch(Exception e){
@@ -46,12 +47,18 @@ public class EditProductVM {
 
     }
 
+    public void setValue(Product product){
+        name.setValue(product.getName());
+        price.setValue(String.valueOf(product.getPrice()));
+        description.setValue(product.getDescription());
+    }
+
 
 
     public void clearFields() {
         name.setValue("");
         price.setValue("");
-        detail.setValue("");
+        description.setValue("");
     }
 
 
@@ -61,8 +68,8 @@ public class EditProductVM {
     public StringProperty priceProperty() {
         return price;
     }
-    public StringProperty detailProperty() {
-        return detail;
+    public StringProperty descriptionProperty() {
+        return description;
     }
 
 }

@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
@@ -77,26 +78,35 @@ public class ViewHandler {
 
     }
 
-    public void openChatViewForOfflineMessages(){
-        try {
-            chatViewController.getOfflineMessages();
-
+    public boolean openChatViewIfNoOfflineMessage() {
+        if(chatViewController.haveChatter()){
             chatStage.setOnCloseRequest(evt -> chatViewController.endStatusThread());
 
             if(!chatStage.isShowing()) {
                 chatStage.show();
+            }
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void openChatViewForOfflineMessages(){
+        try {
+            boolean hasOfflineMessage = chatViewController.getOfflineMessages();
+
+            chatStage.setOnCloseRequest(evt -> chatViewController.endStatusThread());
+
+            if(hasOfflineMessage && !chatStage.isShowing()) {
+                chatStage.show();
+            }else {
+                JOptionPane.showMessageDialog(null, "no offline message","error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
-
-
-    public void closeChatView(){
-        chatStage.close();
-    }
-
 
 
 
@@ -281,26 +291,28 @@ public class ViewHandler {
 
     private Stage productDetailStage;
     private Scene productDetailScene;
+    private ProductDetailController productDetailController;
     public void openProductDetailView(Product product) {
         try {
             if(productDetailStage == null) {
                 productDetailStage = new Stage();
             }
+
             // no need to load the same scene more than once. I can just reuse it
             if(productDetailScene == null) {
                 FXMLLoader loader = new FXMLLoader();
-
                 loader.setLocation(getClass().getResource("CustomerService/ProductDetail.fxml"));
                 Parent root = loader.load();
+                productDetailController = loader.getController();
 
-                ProductDetailController view = loader.getController();
-                view.init(this, product);
-
+                productDetailController.init(this,viewModelFactory.getProductDetailVM());
                 // storing scene in field variable for future use
                 productDetailScene = new Scene(root);
 
             }
-            productDetailStage.setTitle("Add Product");
+            productDetailController.setValues(product);
+
+            productDetailStage.setTitle("Product Detail");
             productDetailStage.setScene(productDetailScene);
             productDetailStage.show();
         } catch (IOException e) {
@@ -382,6 +394,7 @@ public class ViewHandler {
 
     private Stage editProductStage;
     private Scene editProductScene;
+    private EditProductController editProductController;
     public void openEditProductView(Product product) {
         try {
             if(editProductStage == null) {
@@ -395,12 +408,14 @@ public class ViewHandler {
                 loader.setLocation(getClass().getResource("CustomerService/EditProduct.fxml"));
                 Parent root = loader.load();
 
-                EditProductController view = loader.getController();
-                view.init(viewModelFactory.getEditProductVM(), this, product);
+                editProductController = loader.getController();
+                editProductController.init(viewModelFactory.getEditProductVM(), this);
 
                 // storing scene in field variable for future use
                 editProductScene = new Scene(root);
             }
+            
+            editProductController.setValue(product);
             editProductStage.setTitle("Edit Product");
             editProductStage.setScene(editProductScene);
             editProductStage.show();
@@ -412,7 +427,6 @@ public class ViewHandler {
     public void closeEditProductView(){
         editProductStage.close();
     }
-
 
 
 

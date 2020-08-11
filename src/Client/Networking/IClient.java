@@ -25,7 +25,7 @@ public interface IClient extends Remote {
 
     boolean createNewUser(User user) throws RemoteException;
     User getUser(String email) throws RemoteException;
-    void changePassword(String Id, String newPw) throws RemoteException;
+    boolean changePassword(String newPw) throws RemoteException;
 
     ArrayList<Product> getProductList(String searchText) throws RemoteException;
 

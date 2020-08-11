@@ -26,6 +26,14 @@ public class ShoppingApplication extends Application {
         }
     }
 
+    /**
+
+
+    view -> view model -> model -> client -> server -> database
+
+
+     */
+
     @Override
     public void stop() throws Exception {
         // This method is called, when the application is shut down

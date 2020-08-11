@@ -16,7 +16,7 @@ public interface IServer extends Remote {
     boolean registerClient(IClient client, String email) throws RemoteException;
 
     boolean createNewUser(User user) throws RemoteException;
-    void changePassword(String Id, String newPw) throws RemoteException;
+    boolean changePassword(String email, String newPw) throws RemoteException;
     User getUser(String CustomerId) throws RemoteException;
     void logout(String name) throws RemoteException;
 

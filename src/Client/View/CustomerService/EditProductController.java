@@ -25,18 +25,23 @@ public class EditProductController {
     private EditProductVM editProductVM;
     private ViewHandler viewHandler;
 
-    public void init(EditProductVM editProductVM, ViewHandler viewHandler, Product product) {
+    public void init(EditProductVM editProductVM, ViewHandler viewHandler) {
         this.editProductVM = editProductVM;
         this.viewHandler = viewHandler;
-        this.product = product;
 
         name.textProperty().bindBidirectional(editProductVM.nameProperty());
         price.textProperty().bindBidirectional(editProductVM.priceProperty());
-        detail.textProperty().bindBidirectional(editProductVM.detailProperty());
+        detail.textProperty().bindBidirectional(editProductVM.descriptionProperty());
 
         name.setText(product.getName());
         price.setText(String.valueOf(product.getPrice()));
         detail.setText(product.getDescription());
+    }
+
+
+    public void setValue(Product product){
+        this.product = product;
+        editProductVM.setValue(product);
     }
 
 
