@@ -4,6 +4,7 @@ import Client.View.ViewHandler;
 import Client.ViewModel.Login.ChangePasswordVM;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
@@ -17,11 +18,11 @@ public class ChangePasswordController {
     @FXML
     public TextField emailTextField;
     @FXML
-    public TextField oldPasswordTextField;
+    public PasswordField oldPasswordTextField;
     @FXML
-    public TextField newPasswordTextField;
+    public PasswordField newPasswordTextField;
     @FXML
-    public TextField newPasswordAgainTextField;
+    public PasswordField newPasswordAgainTextField;
 
     private ChangePasswordVM changePasswordVM;
     private ViewHandler viewHandler;
@@ -43,7 +44,7 @@ public class ChangePasswordController {
     public void onUpdatePasswordButton(ActionEvent actionEvent) throws RemoteException {
         String result = changePasswordVM.updatePassword();
 
-        if("Ok".equals(result)){
+        if("OK".equals(result)){
             changePasswordVM.clearFields();
             viewHandler.openLoginView();
             JOptionPane.showMessageDialog(null, "You have successfully changed your password","Attention", JOptionPane.INFORMATION_MESSAGE);

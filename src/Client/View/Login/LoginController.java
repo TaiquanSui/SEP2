@@ -5,6 +5,7 @@ import Client.ViewModel.Login.LoginVM;
 import Shared.Model.UserType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class LoginController {
     @FXML
     private TextField emailTextField;
     @FXML
-    private TextField passwordTextField;
+    private PasswordField passwordTextField;
 
     private LoginVM loginViewModel;
     private ViewHandler viewHandler;

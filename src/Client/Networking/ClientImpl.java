@@ -95,8 +95,8 @@ public class ClientImpl implements IClient{
     }
 
     @Override
-    public boolean changePassword(String newPw) throws RemoteException {
-        return server.changePassword(emailOfUserLogin,newPw);
+    public boolean changePassword(String email, String newPw) throws RemoteException {
+        return server.changePassword(email,newPw);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class LoginModelImpl implements ILoginModel{
 
     @Override
     public String validateLogin(String email, String password) throws RemoteException{
-        String result = checkLogin(email, password);
+        String result = checkLoginForSignIn(email, password);
 
         return result;
     }
@@ -42,7 +42,7 @@ public class LoginModelImpl implements ILoginModel{
 
         if("OK".equals(result)) {
             // updating the password
-            boolean serverResult = client.changePassword(newPw);
+            boolean serverResult = client.changePassword(email,newPw);
 
             if(!serverResult){
                 return "server failed, try again please";
@@ -64,7 +64,7 @@ public class LoginModelImpl implements ILoginModel{
 
     // get user and check if the password is correct
     // if login successfully, register the client to the server
-    private String checkLogin(String email, String password) throws RemoteException{
+    private String checkLoginForSignIn(String email, String password) throws RemoteException{
         User user = client.getUser(email);
 
         if(user == null) {
@@ -81,6 +81,19 @@ public class LoginModelImpl implements ILoginModel{
         }
 
         return user.getType().toString();
+    }
+
+    private String checkLoginForChangePassword(String email, String password) throws RemoteException{
+        User user = client.getUser(email);
+
+        if(user == null) {
+            return "User not found";
+        }
+        if(!user.getPassword().equals(password)) {
+            return "Incorrect password";
+        }
+
+        return "OK";
     }
 
 
@@ -145,10 +158,10 @@ public class LoginModelImpl implements ILoginModel{
         return foundLowerCase;
     }
 
-    private String checkUpdateNewPW(String username, String pw, String newPw, String newPwAgain) throws RemoteException {
+    private String checkUpdateNewPW(String email, String pw, String newPw, String newPwAgain) throws RemoteException {
 
         // check that passwords are valid and matches
-        if(UserType.Administrator.toString().equals(checkLogin(username, pw)) || UserType.Customer.toString().equals(checkLogin(username, pw))) {
+        if(checkLoginForChangePassword(email, pw).equals("OK")) {
             return validatePasswords(newPw, newPwAgain);
         }
 
