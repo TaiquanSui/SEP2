@@ -148,7 +148,7 @@ public class LoginModelImpl implements ILoginModel{
     private String checkUpdateNewPW(String username, String pw, String newPw, String newPwAgain) throws RemoteException {
 
         // check that passwords are valid and matches
-        if(UserType.Administrator.equals(checkLogin(username, pw)) || UserType.Customer.equals(checkLogin(username, pw))) {
+        if(UserType.Administrator.toString().equals(checkLogin(username, pw)) || UserType.Customer.toString().equals(checkLogin(username, pw))) {
             return validatePasswords(newPw, newPwAgain);
         }
 
