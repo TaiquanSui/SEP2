@@ -85,9 +85,8 @@ public class SearchProductController {
 
 
     public void logout(ActionEvent actionEvent) throws RemoteException {
-
-        JOptionPane.showMessageDialog(null, "","User create failed", JOptionPane.ERROR_MESSAGE);
-
+        searchProductVM.logout();
+        viewHandler.openLoginView();
     }
 
 

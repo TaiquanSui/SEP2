@@ -19,6 +19,7 @@ public class ClientImpl implements IClient{
 
     private IServer server;
 
+    //store Store user information when login for later use
     private String emailOfUserLogin;
     private ArrayList<Product> productsOnSale;
 
@@ -33,8 +34,8 @@ public class ClientImpl implements IClient{
     }
 
     @Override
-    public void registerClient(String email) throws RemoteException {
-        server.registerClient(this,email);
+    public boolean registerClient(String email) throws RemoteException {
+        return server.registerClient(this,email);
     }
 
     @Override

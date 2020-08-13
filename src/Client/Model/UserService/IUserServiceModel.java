@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public interface IUserServiceModel {
 
+    void logout() throws RemoteException;
+
     String getEmail() throws RemoteException;
 
     ArrayList<Product> getSearchResult(String name) throws RemoteException;

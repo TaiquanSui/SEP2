@@ -11,7 +11,6 @@ public class Status implements Runnable {
     private IClient client;
     private String email;
     private boolean run;
-
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public Status(IClient client) {
@@ -27,24 +26,15 @@ public class Status implements Runnable {
         this.email = email;
     }
 
-    public void startThread(){
-        run = true;
-    }
+    public void startThread(){ run = true; }
 
     public void stopThread(){
         run = false;
     }
 
-    public boolean getThreadState(){
-        return run;
-    }
-
 
     @Override
     public void run() {
-
-
-
         while (run){
             try {
                 String status = client.getUserStatus(email);

@@ -35,7 +35,7 @@ public class ChatViewController {
     private TextArea messageArea;
 
     private ArrayList<Session> sessions;
-    private ObservableList<String> chatters;
+    private ObservableList<String> talkers;
     private ObservableList<Message> chatMessages;
 
     private ChatVM chatVM;
@@ -47,13 +47,12 @@ public class ChatViewController {
 
         sessions = new ArrayList<Session>();
 
-        chatters = FXCollections.observableArrayList();
+        talkers = FXCollections.observableArrayList();
         chatMessages = FXCollections.observableArrayList();
 
-        userListView.setItems(chatters);
+        userListView.setItems(talkers);
         chatListView.setItems(chatMessages);
 
-        // Binding the label to the property which will be updated with the login result
         // Using bidirectional, so the textfield can be cleared from the VM
         messageArea.textProperty().bindBidirectional(chatVM.messageProperty());
         userChattingWith.textProperty().bindBidirectional(chatVM.userChattingWithProperty());
@@ -62,7 +61,6 @@ public class ChatViewController {
         initChatListView();
 
         chatVM.addChatViewToClient(this);
-
 
         userListView.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> {
@@ -92,7 +90,7 @@ public class ChatViewController {
 
 
     public boolean checkChatter(String emailOfChatter){
-        for (int i = 0; i<chatters.size(); i++){
+        for (int i = 0; i< talkers.size(); i++){
             if(sessions.get(i).getSenderEmail().equals(emailOfChatter)){
                 return true;
             }
@@ -105,7 +103,7 @@ public class ChatViewController {
     public void addChatter(String emailOfChatter) {
         Session session = new Session(emailOfChatter);
         sessions.add(session);
-        chatters.add(emailOfChatter);
+        talkers.add(emailOfChatter);
 
         userListView.getSelectionModel().select(emailOfChatter);
     }
@@ -123,21 +121,17 @@ public class ChatViewController {
             viewHandler.openChatView(message.getSenderEmail());
 
             if(checkChatter(message.getSenderEmail())){
-
                 for (Session session : sessions) {
                     if (message.getSenderEmail().equals(session.getSenderEmail())) {
                         session.addMessage(message);
                     }
                 }
-
                 userListView.getSelectionModel().select(message.getSenderEmail());
             }else {
                 addChatter(message.getSenderEmail());
                 chatMessages.add(message);
             }
-
         });
-
 
     }
 
@@ -154,7 +148,7 @@ public class ChatViewController {
 
             for(Session session : offlineMessages){
                 if(!checkChatter(session.getSenderEmail())) {
-                    chatters.add(session.getSenderEmail());
+                    talkers.add(session.getSenderEmail());
                 }
             }
 
@@ -174,7 +168,7 @@ public class ChatViewController {
 
 
 
-    //Method use to handle button press that submits the 1st user's text to the listview.
+    //Method use to send button press that send the message
     @FXML
     private void OnSendMessageButton(MouseEvent event) throws RemoteException {
 

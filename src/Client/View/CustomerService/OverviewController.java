@@ -2,6 +2,7 @@ package Client.View.CustomerService;
 
 import Client.View.ViewHandler;
 import Client.ViewModel.UserService.OverviewVM;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -46,5 +47,11 @@ public class OverviewController {
             overviewVM.getNumOfMessages();
         }
     }
+
+    public void logout(ActionEvent actionEvent) throws RemoteException {
+        overviewVM.logout();
+        viewHandler.openLoginView();
+    }
+
 
 }

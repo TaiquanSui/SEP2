@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ServerImpl implements IServer{
 
+    //store online clients for chat
     private List<ClientContainer> clients;
 
     private DBUtil dbUtil;
@@ -35,6 +36,7 @@ public class ServerImpl implements IServer{
     }
 
 
+    //add client with user's email to client container when user login
     @Override
     public boolean registerClient(IClient userClient, String email) throws RemoteException {
         for (ClientContainer client : clients) {

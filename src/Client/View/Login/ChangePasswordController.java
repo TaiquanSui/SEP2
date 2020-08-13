@@ -52,7 +52,7 @@ public class ChangePasswordController {
         }
     }
 
-    // Method called when the Cancel button is pressed
+    // Method called when the Cancel button is presseds
     public void onCancelButton(ActionEvent actionEvent) {
         changePasswordVM.clearFields();
         viewHandler.openLoginView();

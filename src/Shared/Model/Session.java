@@ -8,7 +8,6 @@ public class Session implements Serializable {
     private String senderEmail;
     private ArrayList<Message> messages;
 
-
     public Session(String senderEmail){
         this.senderEmail = senderEmail;
         messages = new ArrayList<Message>();
@@ -22,15 +21,8 @@ public class Session implements Serializable {
         return messages;
     }
 
-    public void setMessages(ArrayList<Message> messages) {
-        this.messages = messages;
-    }
-
     public String getSenderEmail() {
         return senderEmail;
     }
 
-    public void setSenderEmail(String senderEmail) {
-        this.senderEmail = senderEmail;
-    }
 }

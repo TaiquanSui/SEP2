@@ -63,6 +63,7 @@ public class LoginModelImpl implements ILoginModel{
 
 
     // get user and check if the password is correct
+    // if login successfully, register the client to the server
     private String checkLogin(String email, String password) throws RemoteException{
         User user = client.getUser(email);
 
@@ -73,9 +74,11 @@ public class LoginModelImpl implements ILoginModel{
             return "Incorrect password";
         }
 
-        client.registerClient(user.getEmail());
-        client.setEmailOfUserLogin(user.getEmail());
-        System.out.println(client.getEmailOfUserLogin());
+        if(client.registerClient(user.getEmail())){
+            client.setEmailOfUserLogin(user.getEmail());
+        }else {
+            return "You have already logged in!";
+        }
 
         return user.getType().toString();
     }
@@ -144,13 +147,13 @@ public class LoginModelImpl implements ILoginModel{
 
     private String checkUpdateNewPW(String username, String pw, String newPw, String newPwAgain) throws RemoteException {
 
-        // check that username and pw is correct;
-        if(!"OK".equals(checkLogin(username, pw))) {
-            return "Incorrect login credentials";
+        // check that passwords are valid and matches
+        if(UserType.Administrator.equals(checkLogin(username, pw)) || UserType.Customer.equals(checkLogin(username, pw))) {
+            return validatePasswords(newPw, newPwAgain);
         }
 
-        // check that passwords are valid and matches
-        return validatePasswords(newPw, newPwAgain);
+        // check that username and pw is correct;
+        return "Incorrect login credentials";
     }
 
 }

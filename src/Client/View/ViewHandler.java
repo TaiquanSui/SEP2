@@ -35,14 +35,10 @@ public class ViewHandler {
         mainStage.show();
     }
 
-
-
-
-
     private Stage chatStage;
     private Scene chatScene;
+    //init when user login for later use
     private ChatViewController chatViewController;
-
 
     public void initChatView(){
         try{
@@ -395,7 +391,7 @@ public class ViewHandler {
     private Stage editProductStage;
     private Scene editProductScene;
     private EditProductController editProductController;
-    public void openEditProductView(Product product) {
+    public void openEditProductView(Product product, SellerOverviewController sc) {
         try {
             if(editProductStage == null) {
                 editProductStage = new Stage();
@@ -409,7 +405,7 @@ public class ViewHandler {
                 Parent root = loader.load();
 
                 editProductController = loader.getController();
-                editProductController.init(viewModelFactory.getEditProductVM(), this);
+                editProductController.init(viewModelFactory.getEditProductVM(), sc, this);
 
                 // storing scene in field variable for future use
                 editProductScene = new Scene(root);

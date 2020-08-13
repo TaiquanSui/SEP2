@@ -24,18 +24,16 @@ public class EditProductController {
 
     private EditProductVM editProductVM;
     private ViewHandler viewHandler;
+    private SellerOverviewController sellerOverviewController;
 
-    public void init(EditProductVM editProductVM, ViewHandler viewHandler) {
+    public void init(EditProductVM editProductVM, SellerOverviewController sellerOverviewController, ViewHandler viewHandler) {
         this.editProductVM = editProductVM;
         this.viewHandler = viewHandler;
+        this.sellerOverviewController = sellerOverviewController;
 
         name.textProperty().bindBidirectional(editProductVM.nameProperty());
         price.textProperty().bindBidirectional(editProductVM.priceProperty());
         detail.textProperty().bindBidirectional(editProductVM.descriptionProperty());
-
-        name.setText(product.getName());
-        price.setText(String.valueOf(product.getPrice()));
-        detail.setText(product.getDescription());
     }
 
 
@@ -52,6 +50,7 @@ public class EditProductController {
             editProductVM.clearFields();
             //open OverviewController window
             viewHandler.closeEditProductView();
+            sellerOverviewController.getAllProductsOnSale();
             JOptionPane.showMessageDialog(null, "Edit successfully",null, JOptionPane.INFORMATION_MESSAGE);
 
         }else{

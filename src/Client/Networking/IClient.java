@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface IClient extends Remote {
-    void registerClient(String email) throws RemoteException;
+    boolean registerClient(String email) throws RemoteException;
     void logout() throws RemoteException;
     String getEmailOfUserLogin() throws RemoteException;
     void setEmailOfUserLogin(String emailOfUserLogin) throws RemoteException;

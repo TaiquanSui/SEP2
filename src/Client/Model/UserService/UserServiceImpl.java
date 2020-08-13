@@ -19,6 +19,11 @@ public class UserServiceImpl implements IUserServiceModel {
     }
 
     @Override
+    public void logout() throws RemoteException {
+        client.logout();
+    }
+
+    @Override
     public String getEmail() throws RemoteException {
         return client.getEmailOfUserLogin();
     }

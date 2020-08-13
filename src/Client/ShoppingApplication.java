@@ -13,6 +13,7 @@ public class ShoppingApplication extends Application {
 
     private IClient client;
 
+    // view -> view model -> model -> client -> server -> database
     @Override
     public void start(Stage stage) throws Exception {
         try {
@@ -26,13 +27,10 @@ public class ShoppingApplication extends Application {
         }
     }
 
-    /**
 
 
-    view -> view model -> model -> client -> server -> database
 
 
-     */
 
     @Override
     public void stop() throws Exception {

@@ -35,12 +35,12 @@ public class LoginController {
 
         if(UserType.Customer.toString().equals(result)){
             loginViewModel.clearFields();
-            //open OverviewController window
+            //open customerOverviewController window
             viewHandler.openOverview();
 
         }else if(UserType.Administrator.toString().equals(result)){
             loginViewModel.clearFields();
-            //open OverviewController window
+            //open adminOverviewController window
             viewHandler.openAdminOverview();
 
         }else{

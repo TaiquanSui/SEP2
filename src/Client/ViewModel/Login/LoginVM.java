@@ -20,9 +20,7 @@ public class LoginVM {
     }
 
     public String validateLogin() throws RemoteException {
-        // I'm calling modelimpls void method here. I could have just returned the result instead.
-        // But I'm trying to simulate the setup, if we had to call modelimpls server to validate the login credentials.
-        // In that case, it would probably be better to add modelimpls listener to the model, to make it asynchronously.
+        // Calling LoginModelImpls String method here.It will return the login result.
 
         if(email.getValue()==null || email.getValue().length()==0){
             String result = "Please enter the email";

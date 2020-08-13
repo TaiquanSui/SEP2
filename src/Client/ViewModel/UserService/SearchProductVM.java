@@ -23,6 +23,10 @@ public class SearchProductVM {
         return iUserServiceModel.getSearchResult(searchProperty.getValue());
     }
 
+    public void logout() throws RemoteException{
+        iUserServiceModel.logout();
+    }
+
     public StringProperty searchProperty() {
         return searchProperty;
     }

@@ -24,6 +24,10 @@ public class OverviewVM {
         });
     }
 
+    public void logout() throws RemoteException{
+        userServiceModel.logout();
+    }
+
 
     public StringProperty numOfMessageProperty(){
      return numOfMessages;

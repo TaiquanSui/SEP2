@@ -28,6 +28,9 @@ public class SellerOverviewVM {
         return userServiceModel.deleteProduct(id);
     }
 
+    public void logout() throws RemoteException{
+        userServiceModel.logout();
+    }
 
 
 

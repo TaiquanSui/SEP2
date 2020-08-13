@@ -55,7 +55,7 @@ public class SellerOverviewController {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Product rowData = row.getItem();
-                    viewHandler.openEditProductView(rowData);
+                    viewHandler.openEditProductView(rowData, this);
                 }
             });
             return row ;
@@ -86,7 +86,7 @@ public class SellerOverviewController {
 
     public void editProduct(ActionEvent actionEvent) throws RemoteException {
         Product productSelected = productTableView.getSelectionModel().selectedItemProperty().getValue();
-        viewHandler.openEditProductView(productSelected);
+        viewHandler.openEditProductView(productSelected, this);
     }
 
     public void deleteProduct(ActionEvent actionEvent) throws RemoteException {
@@ -130,9 +130,7 @@ public class SellerOverviewController {
 
 
     public void getAllProductsOnSale() throws RemoteException {
-        /**
-         *   get the list of products on sale
-         */
+        //get the list of products on sale
         ArrayList<Product> productArrayList = sellerOverviewVM.getAllProductsOnSale();
 
         ObservableList<Product> productList = FXCollections.observableArrayList();
@@ -144,9 +142,8 @@ public class SellerOverviewController {
 
 
     public void logout(ActionEvent actionEvent) throws RemoteException {
-
-        JOptionPane.showMessageDialog(null, "","User create failed", JOptionPane.ERROR_MESSAGE);
-
+        sellerOverviewVM.logout();
+        viewHandler.openLoginView();
     }
 
 
